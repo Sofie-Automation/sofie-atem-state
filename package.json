@@ -7,12 +7,12 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/nrkno/sofie-atem-state"
+		"url": "git+https://github.com/Sofie-Automation/sofie-atem-state"
 	},
 	"bugs": {
-		"url": "https://github.com/nrkno/sofie-atem-state/issues"
+		"url": "https://github.com/Sofie-Automation/sofie-atem-state/issues"
 	},
-	"homepage": "https://github.com/nrkno/sofie-atem-state#readme",
+	"homepage": "https://github.com/Sofie-Automation/sofie-atem-state#readme",
 	"author": {
 		"name": "Balte de Wit",
 		"email": "balte@superfly.tv",
