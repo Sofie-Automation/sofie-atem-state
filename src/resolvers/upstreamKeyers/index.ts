@@ -100,7 +100,9 @@ export function resolveUpstreamKeyerState(
 		}
 
 		if (thisDiffOptions.onAir && oldKeyer.onAir !== newKeyer.onAir) {
-			commands.push(new AtemCommands.MixEffectKeyOnAirCommand(mixEffectId, upstreamKeyerId, newKeyer.onAir))
+			const command = new AtemCommands.MixEffectKeyOnAirCommand(mixEffectId, upstreamKeyerId, newKeyer.onAir)
+			command.runOrderGroup = newKeyer.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
+			commands.push(command)
 		}
 	}
 
