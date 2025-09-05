@@ -96,5 +96,6 @@
 		"*.{ts,tsx,js,jsx}": [
 			"yarn lint:raw --fix"
 		]
-	}
+	},
+	"packageManager": "yarn@3.5.0"
 }
