@@ -64,7 +64,6 @@
 		"@types/jest": "^29.5.10",
 		"@types/node": "^14.18.63",
 		"@types/object-path": "^0.11.4",
-		"atem-connection": "3.5",
 		"fast-clone": "^1.5.13",
 		"jest": "^29.7.0",
 		"object-path": "^0.11.8",
@@ -80,10 +79,8 @@
 		"open",
 		"source"
 	],
-	"peerDependencies": {
-		"atem-connection": "^3.4"
-	},
 	"dependencies": {
+		"atem-connection": "3.6",
 		"deepmerge": "^4.3.1",
 		"tslib": "^2.6.2",
 		"type-fest": "^3.13.1"

@@ -16,6 +16,7 @@ export const Monitor: Fairlight.FairlightAudioMonitorChannel = {
 	inputMasterGain: 0,
 	inputMasterMuted: false,
 	inputTalkbackGain: 0,
+	inputTalkbackMuted: false,
 	inputSidetoneGain: 0,
 }
 
