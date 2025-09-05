@@ -1477,9 +1477,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"atem-connection@npm:3.5":
-  version: 3.5.0
-  resolution: "atem-connection@npm:3.5.0"
+"atem-connection@npm:3.6":
+  version: 3.6.0
+  resolution: "atem-connection@npm:3.6.0"
   dependencies:
     "@julusian/freetype2": ^1.1.2
     debug: ^4.3.4
@@ -1491,7 +1491,7 @@ __metadata:
     threadedclass: ^1.2.1
     tslib: ^2.6.2
     wavefile: ^8.4.6
-  checksum: 5eb4412eff357b95305b7aa30727862310ba3a6280216d7b2d50a1bbb1d9861306da087386dd722ede2905e8e2ea73bf586964fa51b542b3643995385ca62e30
+  checksum: d961039d056d2699a8b08fcd2bc19af07e7ff9536b33370ca18429db6801bcd9418e7e9d0c37fa890355e37243efffe21a2f85e58744326bc022d6d39677fc41
   languageName: node
   linkType: hard
 
@@ -1503,7 +1503,7 @@ __metadata:
     "@types/jest": ^29.5.10
     "@types/node": ^14.18.63
     "@types/object-path": ^0.11.4
-    atem-connection: 3.5
+    atem-connection: 3.6
     deepmerge: ^4.3.1
     fast-clone: ^1.5.13
     jest: ^29.7.0
@@ -1514,8 +1514,6 @@ __metadata:
     type-fest: ^3.13.1
     typedoc: ^0.24.8
     typescript: ~4.9.5
-  peerDependencies:
-    atem-connection: ^3.4
   languageName: unknown
   linkType: soft
 
