@@ -1511,7 +1511,6 @@ __metadata:
     open-cli: ^7.2.0
     rimraf: ^5.0.5
     ts-jest: ^29.1.1
-    tslib: ^2.6.2
     type-fest: ^3.13.1
     typedoc: ^0.24.8
     typescript: ~4.9.5
