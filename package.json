@@ -30,25 +30,25 @@
 	],
 	"scripts": {
 		"prepare": "husky install",
-		"build": "rimraf dist && yarn build:main",
+		"build": "rimraf dist && run build:main",
 		"build:main": "tsc -p tsconfig.build.json",
-		"lint:raw": "eslint --ext .ts --ext .js --ext .tsx --ext .jsx --ignore-pattern dist",
-		"lint": "yarn lint:raw .",
-		"lint-fix": "yarn lint --fix",
-		"unit": "jest --forceExit",
-		"test": "yarn lint && yarn unit",
-		"watch": "jest --watch",
-		"cov": "jest --coverage; open-cli coverage/lcov-report/index.html",
+		"lint:raw": "run eslint --ext .ts --ext .js --ext .tsx --ext .jsx --ignore-pattern dist",
+		"lint": "run lint:raw .",
+		"lint-fix": "run lint --fix",
+		"unit": "run jest --forceExit",
+		"test": "run lint && run unit",
+		"watch": "run jest --watch",
+		"cov": "run jest --coverage; open-cli coverage/lcov-report/index.html",
 		"cov-open": "open-cli coverage/lcov-report/index.html",
-		"docs": "yarn docs:html && open-cli docs/index.html",
-		"docs:test": "yarn docs:html",
+		"docs": "run docs:html && open-cli docs/index.html",
+		"docs:test": "run docs:html",
 		"docs:html": "typedoc --tsconfig tsconfig.docs.json --entryPoints src/index.ts --excludePrivate --theme default --out docs",
 		"docs:json": "typedoc --tsconfig tsconfig.docs.json --json docs/typedoc.json --entryPoints src/index.ts",
 		"release": "sofie-version",
 		"reset": "git clean -dfx && git reset --hard && yarn",
 		"validate:dependencies": "yarn audit --groups dependencies && yarn license-validate",
 		"validate:dev-dependencies": "yarn audit --groups devDependencies",
-		"license-validate": "yarn sofie-licensecheck --allowPackages caniuse-lite@1.0.30001425"
+		"license-validate": "sofie-licensecheck --allowPackages caniuse-lite@1.0.30001425"
 	},
 	"engines": {
 		"node": "^14.18 || ^16.14 || >=18.0"
@@ -75,10 +75,11 @@
 		"typescript": "~4.9.5"
 	},
 	"keywords": [
-		"typescript",
-		"javascript",
-		"open",
-		"source"
+		"atem",
+		"blackmagic",
+		"bmd",
+		"switcher",
+		"video"
 	],
 	"peerDependencies": {
 		"atem-connection": "^3.4"
@@ -94,7 +95,8 @@
 			"prettier --write"
 		],
 		"*.{ts,tsx,js,jsx}": [
-			"yarn lint:raw --fix"
+			"yarn lint-fix"
 		]
-	}
+	},
+	"packageManager": "yarn@3.5.0"
 }
