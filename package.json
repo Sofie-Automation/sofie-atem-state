@@ -94,5 +94,8 @@
 			"yarn lint-fix"
 		]
 	},
+	"resolutions": {
+		"atem-connection": "github:rjmunro/sofie-atem-connection#rjmunro/atem-run-order-groups"
+	},
 	"packageManager": "yarn@3.5.0"
 }

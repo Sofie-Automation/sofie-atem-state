@@ -1477,9 +1477,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"atem-connection@npm:3.6":
-  version: 3.6.0
-  resolution: "atem-connection@npm:3.6.0"
+"atem-connection@github:rjmunro/sofie-atem-connection#rjmunro/atem-run-order-groups":
+  version: 3.6.1
+  resolution: "atem-connection@https://github.com/rjmunro/sofie-atem-connection.git#commit=0b66b3499fd8ab9632cef9a08e868532ec2affba"
   dependencies:
     "@julusian/freetype2": ^1.1.2
     debug: ^4.3.4
@@ -1491,7 +1491,7 @@ __metadata:
     threadedclass: ^1.2.1
     tslib: ^2.6.2
     wavefile: ^8.4.6
-  checksum: d961039d056d2699a8b08fcd2bc19af07e7ff9536b33370ca18429db6801bcd9418e7e9d0c37fa890355e37243efffe21a2f85e58744326bc022d6d39677fc41
+  checksum: dd6b298747bdf04c43b38bc3dad24d08fd5525de0d5597a8b98390cba5df8c77989d6a2f3fe07a1cfa1de194234f14aefe8c6b8b2aaebb1059ce942e895f3e37
   languageName: node
   linkType: hard
 
