@@ -1,7 +1,8 @@
 node_modules
 dist
 test
-src/**.js
+src/**/*.js
+scratch
 
 /coverage
 /docs
@@ -11,4 +12,16 @@ src/**.js
 wallaby.conf.js
 
 .DS_Store
-.vscode
+
+# JetBrains IDE project files
+/.idea
+
+testframe.rgba
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
