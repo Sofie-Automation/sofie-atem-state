@@ -30,25 +30,25 @@
 	],
 	"scripts": {
 		"prepare": "husky install",
-		"build": "rimraf dist && yarn build:main",
+		"build": "rimraf dist && run build:main",
 		"build:main": "tsc -p tsconfig.build.json",
-		"lint:raw": "eslint --ext .ts --ext .js --ext .tsx --ext .jsx --ignore-pattern dist",
-		"lint": "yarn lint:raw .",
-		"lint-fix": "yarn lint --fix",
-		"unit": "jest --forceExit",
-		"test": "yarn lint && yarn unit",
-		"watch": "jest --watch",
-		"cov": "jest --coverage; open-cli coverage/lcov-report/index.html",
+		"lint:raw": "run eslint --ext .ts --ext .js --ext .tsx --ext .jsx --ignore-pattern dist",
+		"lint": "run lint:raw .",
+		"lint-fix": "run lint --fix",
+		"unit": "run jest --forceExit",
+		"test": "run lint && run unit",
+		"watch": "run jest --watch",
+		"cov": "run jest --coverage; open-cli coverage/lcov-report/index.html",
 		"cov-open": "open-cli coverage/lcov-report/index.html",
-		"docs": "yarn docs:html && open-cli docs/index.html",
-		"docs:test": "yarn docs:html",
+		"docs": "run docs:html && open-cli docs/index.html",
+		"docs:test": "run docs:html",
 		"docs:html": "typedoc --tsconfig tsconfig.docs.json --entryPoints src/index.ts --excludePrivate --theme default --out docs",
 		"docs:json": "typedoc --tsconfig tsconfig.docs.json --json docs/typedoc.json --entryPoints src/index.ts",
 		"release": "sofie-version",
 		"reset": "git clean -dfx && git reset --hard && yarn",
 		"validate:dependencies": "yarn audit --groups dependencies && yarn license-validate",
 		"validate:dev-dependencies": "yarn audit --groups devDependencies",
-		"license-validate": "yarn sofie-licensecheck --allowPackages caniuse-lite@1.0.30001425"
+		"license-validate": "sofie-licensecheck --allowPackages caniuse-lite@1.0.30001425"
 	},
 	"engines": {
 		"node": "^14.18 || ^16.14 || >=18.0"
@@ -64,7 +64,6 @@
 		"@types/jest": "^29.5.10",
 		"@types/node": "^14.18.63",
 		"@types/object-path": "^0.11.4",
-		"atem-connection": "3.5",
 		"fast-clone": "^1.5.13",
 		"jest": "^29.7.0",
 		"object-path": "^0.11.8",
@@ -75,17 +74,15 @@
 		"typescript": "~4.9.5"
 	},
 	"keywords": [
-		"typescript",
-		"javascript",
-		"open",
-		"source"
+		"atem",
+		"blackmagic",
+		"bmd",
+		"switcher",
+		"video"
 	],
-	"peerDependencies": {
-		"atem-connection": "^3.4"
-	},
 	"dependencies": {
+		"atem-connection": "3.6",
 		"deepmerge": "^4.3.1",
-		"tslib": "^2.6.2",
 		"type-fest": "^3.13.1"
 	},
 	"prettier": "@sofie-automation/code-standard-preset/.prettierrc.json",
@@ -94,7 +91,11 @@
 			"prettier --write"
 		],
 		"*.{ts,tsx,js,jsx}": [
-			"yarn lint:raw --fix"
+			"yarn lint-fix"
 		]
-	}
+	},
+	"resolutions": {
+		"atem-connection": "github:rjmunro/sofie-atem-connection#rjmunro/atem-run-order-groups"
+	},
+	"packageManager": "yarn@3.5.0"
 }
