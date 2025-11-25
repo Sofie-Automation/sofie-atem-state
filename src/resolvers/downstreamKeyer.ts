@@ -41,7 +41,9 @@ export function resolveDownstreamKeyerState(
 				if (!oldDsk.isAuto && newDsk.isAuto) {
 					commands.push(new AtemCommands.DownstreamKeyAutoCommand(index))
 				} else if (oldDsk.onAir !== newDsk.onAir) {
-					commands.push(new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir))
+					const command = new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir)
+					command.runOrderGroup = newDsk.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
+					commands.push(command)
 				}
 			}
 		}
