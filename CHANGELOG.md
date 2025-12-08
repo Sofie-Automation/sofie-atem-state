@@ -2,6 +2,9 @@
 
 All notable changes to this project will be documented in this file. See [Convential Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification) for commit guidelines.
 
+## [1.2.1](https://github.com/Sofie-Automation/sofie-atem-state/compare/v1.2.0...v1.2.1) (Mon Dec 08 2025)
+
+
 ## [1.2.0](https://github.com/Sofie-Automation/sofie-atem-state/compare/v1.1.0...v1.2.0) (Mon Aug 19 2024)
 
 
