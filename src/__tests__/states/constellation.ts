@@ -15086,6 +15086,7 @@ export const ConstellationState: AtemState = {
 			inputMasterMuted: false,
 			inputTalkbackGain: -1000,
 			inputSidetoneGain: -1000,
+			inputTalkbackMuted: false,
 		},
 	},
 	colorGenerators: {
