@@ -58,7 +58,7 @@ export function resolveMixEffectsState(
 			const transition = newMixEffect?.transition ?? Enums.TransitionStyle.CUT
 			const canHotCut =
 				transition === Enums.TransitionStyle.CUT &&
-				!newMixEffect?.transitionProperties.nextSelection.find(
+				!newMixEffect?.transitionProperties?.nextSelection?.find(
 					(layer) => layer !== ConnectionEnums.TransitionSelection.Background
 				)
 
@@ -90,7 +90,7 @@ export function resolveMixEffectsState(
 						commands.push(
 							new AtemCommands.PreviewInputCommand(mixEffectId, programInput ?? Defaults.Video.defaultInput)
 						)
-						if (transition !== (oldMixEffect?.transition ?? oldMixEffect?.transitionProperties.style)) {
+						if (transition !== (oldMixEffect?.transition ?? oldMixEffect?.transitionProperties?.style)) {
 							// set style before auto transition command
 							const command = new AtemCommands.TransitionPropertiesCommand(mixEffectId)
 							command.updateProps({
