@@ -57,14 +57,28 @@ test('Unit: mix effect: preview input', function () {
 	const [ME1, ME2] = getState()
 
 	ME2.previewInput = 1
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
-	expect(commands).toHaveLength(1)
+	{
+		const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
+		expect(commands).toHaveLength(1)
 
-	expect(commands[0].constructor.name).toEqual('PreviewInputCommand')
-	expect(commands[0].mixEffect).toEqual(0)
-	expect(commands[0].properties).toEqual({
-		source: 1,
-	})
+		expect(commands[0].constructor.name).toEqual('PreviewInputCommand')
+		expect(commands[0].mixEffect).toEqual(0)
+		expect(commands[0].properties).toEqual({
+			source: 1,
+		})
+	}
+
+	ME2.transition = Enums.TransitionStyle.MIX
+	{
+		const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
+		expect(commands).toHaveLength(1)
+
+		expect(commands[0].constructor.name).toEqual('PreviewInputCommand')
+		expect(commands[0].mixEffect).toEqual(0)
+		expect(commands[0].properties).toEqual({
+			source: 1,
+		})
+	}
 })
 
 test('Unit: mix effect: program + preview', function () {

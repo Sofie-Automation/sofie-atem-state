@@ -104,7 +104,10 @@ export function resolveMixEffectsState(
 				}
 			}
 
-			if (canHotCut && oldMixEffect?.previewInput !== newMixEffect?.previewInput) {
+			if (
+				(oldProgramInput === programInput || canHotCut) &&
+				oldMixEffect?.previewInput !== newMixEffect?.previewInput
+			) {
 				// set preview when there is no auto transition command
 				commands.push(
 					new AtemCommands.PreviewInputCommand(mixEffectId, newMixEffect?.previewInput ?? Defaults.Video.defaultInput)
