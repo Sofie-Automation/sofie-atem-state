@@ -1,4 +1,4 @@
-import { Commands as AtemCommands, VideoState } from 'atem-connection'
+import { Commands as AtemCommands, VideoState, Enums as ConnectionEnums } from 'atem-connection'
 import { resolveDVEKeyerState } from './dveKeyer'
 import { resolveAdvancedChromaKeyerState, resolveChromaKeyerState } from './chromaKeyer'
 import { resolveLumaKeyerState } from './lumaKeyer'
@@ -13,9 +13,11 @@ export function resolveUpstreamKeyerState(
 	mixEffectId: number,
 	oldState: PartialDeep<Array<VideoState.USK.UpstreamKeyer | undefined>> | undefined,
 	newState: PartialDeep<Array<VideoState.USK.UpstreamKeyer | undefined>> | undefined,
+	newStateTransSelection: ConnectionEnums.TransitionSelection[] | undefined,
 	diffOptions: DiffUpstreamKeyer | DiffUpstreamKeyer[]
-): Array<AtemCommands.ISerializableCommand> {
+): { commands: Array<AtemCommands.ISerializableCommand>; doTransition: boolean } {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
+	let doTransition = false
 
 	for (const upstreamKeyerId of getAllKeysNumber(oldState, newState)) {
 		const thisDiffOptions = Array.isArray(diffOptions) ? diffOptions[upstreamKeyerId] : diffOptions
@@ -99,14 +101,17 @@ export function resolveUpstreamKeyerState(
 			}
 		}
 
-		if (thisDiffOptions.onAir && oldKeyer.onAir !== newKeyer.onAir) {
+		const transitions = newStateTransSelection?.includes(Math.pow(2, upstreamKeyerId + 1))
+		if (thisDiffOptions.onAir && oldKeyer.onAir !== newKeyer.onAir && !transitions) {
 			const command = new AtemCommands.MixEffectKeyOnAirCommand(mixEffectId, upstreamKeyerId, newKeyer.onAir)
 			command.runOrderGroup = newKeyer.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
 			commands.push(command)
+		} else if (thisDiffOptions.onAir && oldKeyer.onAir !== newKeyer.onAir) {
+			doTransition = true
 		}
 	}
 
-	return commands
+	return { commands, doTransition }
 }
 
 export function resolveUpstreamKeyerMaskState(

@@ -2,17 +2,23 @@ import { Commands as AtemCommands, VideoState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
 import * as Defaults from '../defaults'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
-import { DiffDownstreamKeyer } from '../diff'
+import { SectionsToDiff } from '../diff'
 
 export function resolveDownstreamKeyerState(
 	oldDsks: Array<PartialDeep<VideoState.DSK.DownstreamKeyer> | undefined> | undefined,
 	newDsks: Array<PartialDeep<VideoState.DSK.DownstreamKeyer> | undefined> | undefined,
-	diffOptions: DiffDownstreamKeyer | DiffDownstreamKeyer[]
-): Array<AtemCommands.ISerializableCommand> {
+	diffOptions: SectionsToDiff['video']
+): { commands: Array<AtemCommands.ISerializableCommand>; doTransition: boolean } {
+	const canUseMixEffectTransition =
+		(Array.isArray(diffOptions?.mixEffects) ? diffOptions?.mixEffects[0] : diffOptions?.mixEffects)?.programPreview ??
+		false
 	const commands: Array<AtemCommands.ISerializableCommand> = []
+	let doTransition = false
 
 	for (const index of getAllKeysNumber(oldDsks, newDsks)) {
-		const thisDiffOptions = Array.isArray(diffOptions) ? diffOptions[index] : diffOptions
+		const thisDiffOptions = Array.isArray(diffOptions?.downstreamKeyers)
+			? diffOptions?.downstreamKeyers[index]
+			: diffOptions?.downstreamKeyers
 
 		if (thisDiffOptions) {
 			const oldDsk = fillDefaults(Defaults.Video.DownstreamKeyer, oldDsks?.[index])
@@ -41,15 +47,19 @@ export function resolveDownstreamKeyerState(
 				if (!oldDsk.isAuto && newDsk.isAuto) {
 					commands.push(new AtemCommands.DownstreamKeyAutoCommand(index))
 				} else if (oldDsk.onAir !== newDsk.onAir) {
-					const command = new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir)
-					command.runOrderGroup = newDsk.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
-					commands.push(command)
+					if (newDsk.properties?.tie && canUseMixEffectTransition) {
+						doTransition = true
+					} else {
+						const command = new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir)
+						command.runOrderGroup = newDsk.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
+						commands.push(command)
+					}
 				}
 			}
 		}
 	}
 
-	return commands
+	return { commands, doTransition }
 }
 
 export function resolveDownstreamKeyerPropertiesState(

@@ -5,11 +5,13 @@ export interface AtemVideoState extends Omit<VideoState.AtemVideoState, 'mixEffe
 	mixEffects: Array<MixEffect | undefined>
 }
 
-export type MixEffect = VideoState.MixEffect | ExtendedMixEffect
+export type MixEffect = ExtendedMixEffect
 
-export interface ExtendedMixEffect extends Omit<VideoState.MixEffect, 'programInput' | 'previewInput'> {
-	input: number
-	transition: Enums.TransitionStyle
+export interface ExtendedMixEffect extends VideoState.MixEffect {
+	/** @deprecated - use programInput instead */
+	input?: number
+	/** falls back to Enums.TransitionStyle.CUT when undefined */
+	transition?: Enums.TransitionStyle
 }
 
 export interface State extends Omit<AtemState, 'video'> {

@@ -2,7 +2,7 @@ import { resolveDownstreamKeyerState } from '../downstreamKeyer'
 import { Commands, VideoState } from 'atem-connection'
 import * as Defaults from '../../defaults'
 import { jsonClone } from '../../util'
-import { DiffDownstreamKeyer } from '../../diff'
+import { DiffDownstreamKeyer, SectionsToDiff } from '../../diff'
 
 function setupDSK(props?: Partial<VideoState.DSK.DownstreamKeyer>): Required<VideoState.DSK.DownstreamKeyer> {
 	return jsonClone({
@@ -19,15 +19,17 @@ function setupDSK(props?: Partial<VideoState.DSK.DownstreamKeyer>): Required<Vid
 const DSK1 = [setupDSK(), setupDSK()]
 const DSK2 = [setupDSK(), setupDSK()]
 
-const fullDiff: Required<DiffDownstreamKeyer> = {
-	sources: true,
-	onAir: true,
-	properties: true,
-	mask: true,
+const fullDiff: SectionsToDiff['video'] & { downstreamKeyers: Required<DiffDownstreamKeyer> } = {
+	downstreamKeyers: {
+		sources: true,
+		onAir: true,
+		properties: true,
+		mask: true,
+	},
 }
 
 test('Unit: Downstream keyer: same state gives no commands', function () {
-	const commands = resolveDownstreamKeyerState(DSK1, DSK1, fullDiff)
+	const { commands } = resolveDownstreamKeyerState(DSK1, DSK1, fullDiff)
 	expect(commands).toHaveLength(0)
 })
 
@@ -38,7 +40,7 @@ test('Unit: Downstream keyer: auto and onAir commands', function () {
 		isAuto: true,
 	}
 
-	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
+	const { commands } = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(2)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyOnAirCommand
@@ -63,7 +65,7 @@ test('Unit: Downstream keyer: sources', function () {
 	DSK2[0].sources.fillSource = 1
 	DSK2[1].sources.cutSource = 2
 
-	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
+	const { commands } = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(2)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyFillSourceCommand
@@ -86,7 +88,7 @@ test('Unit: Downstream keyer: sources', function () {
 
 test('Unit: Downstream keyer: rate', function () {
 	DSK2[0].properties.rate = 50
-	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
+	const { commands } = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyRateCommand
@@ -100,7 +102,7 @@ test('Unit: Downstream keyer: rate', function () {
 
 test('Unit: Downstream keyer: tie', function () {
 	DSK2[0].properties.tie = true
-	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
+	const { commands } = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyTieCommand
@@ -117,7 +119,7 @@ test('Unit: Downstream keyer: properties', function () {
 	DSK2[0].properties.clip = 500
 	DSK2[0].properties.gain = 50
 	DSK2[0].properties.invert = true
-	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
+	const { commands } = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyGeneralCommand
@@ -143,7 +145,7 @@ test('Unit: Downstream keyer: mask', function () {
 		left: 3,
 		right: 4,
 	}
-	const commands = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
+	const { commands } = resolveDownstreamKeyerState(DSK1, DSK2, fullDiff)
 	expect(commands).toHaveLength(1)
 
 	const firstCommand = commands[0] as Commands.DownstreamKeyMaskCommand
@@ -163,4 +165,15 @@ test('Unit: Downstream keyer: mask', function () {
 		left: 0,
 		right: 0,
 	}
+})
+
+test('Unit: Downstream keyer: onAir with tie returns doTransition', function () {
+	DSK2[0].properties.tie = true
+	DSK2[0].onAir = true
+	const { commands, doTransition } = resolveDownstreamKeyerState(DSK1, DSK2, {
+		...fullDiff,
+		mixEffects: { programPreview: true },
+	})
+	expect(doTransition).toBe(true)
+	expect(commands.filter((c) => c.constructor.name === 'DownstreamKeyOnAirCommand')).toHaveLength(0)
 })

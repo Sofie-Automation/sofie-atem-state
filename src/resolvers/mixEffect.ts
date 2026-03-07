@@ -1,5 +1,5 @@
 import { Commands as AtemCommands, Enums as ConnectionEnums, VideoState } from 'atem-connection'
-import { ExtendedMixEffect, MixEffect } from '../state'
+import { MixEffect } from '../state'
 import * as Defaults from '../defaults'
 import * as Enums from '../enums'
 import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
@@ -10,7 +10,8 @@ import { PartialDeep } from 'type-fest'
 export function resolveMixEffectsState(
 	oldState: PartialDeep<Array<MixEffect | undefined>> | undefined,
 	newState: PartialDeep<Array<MixEffect | undefined>> | undefined,
-	diffOptions: DiffMixEffect | DiffMixEffect[]
+	diffOptions: DiffMixEffect | DiffMixEffect[],
+	dskTransition = false
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
@@ -19,6 +20,7 @@ export function resolveMixEffectsState(
 
 		const oldMixEffect = oldState?.[mixEffectId]
 		const newMixEffect = newState?.[mixEffectId]
+		let doTransition = dskTransition
 
 		if (thisDiffOptions.transitionProperties) {
 			commands.push(
@@ -42,71 +44,72 @@ export function resolveMixEffectsState(
 		}
 
 		if (thisDiffOptions.upstreamKeyers) {
-			commands.push(
-				...resolveUpstreamKeyerState(
-					mixEffectId,
-					oldMixEffect?.upstreamKeyers,
-					newMixEffect?.upstreamKeyers,
-					thisDiffOptions.upstreamKeyers
-				)
+			const uskDiff = resolveUpstreamKeyerState(
+				mixEffectId,
+				oldMixEffect?.upstreamKeyers,
+				newMixEffect?.upstreamKeyers,
+				thisDiffOptions.programPreview ? newMixEffect?.transitionProperties?.nextSelection : undefined,
+				thisDiffOptions.upstreamKeyers
 			)
+			commands.push(...uskDiff.commands)
+			doTransition = uskDiff.doTransition || dskTransition
 		}
 
 		if (thisDiffOptions.programPreview) {
-			let oldMEInput = Defaults.Video.defaultInput
-			let oldMeTransition: Enums.TransitionStyle = Defaults.Video.TransitionProperties.style
-			if (oldMixEffect) {
-				const oldMixEffectExt = oldMixEffect as ExtendedMixEffect
-				if ('input' in oldMixEffectExt || 'transition' in oldMixEffectExt) {
-					oldMEInput = oldMixEffectExt.input ?? oldMEInput
-					oldMeTransition = oldMixEffectExt.transition ?? oldMeTransition
-				} else {
-					oldMeTransition = oldMixEffect.transitionProperties?.style ?? oldMeTransition
-					if ('programInput' in oldMixEffect) {
-						oldMEInput = oldMixEffect.programInput ?? oldMEInput
-					}
-				}
+			const programInput = newMixEffect?.input ?? newMixEffect?.programInput ?? Defaults.Video.defaultInput
+			const oldProgramInput = oldMixEffect?.input ?? oldMixEffect?.programInput ?? Defaults.Video.defaultInput
+			const transition = newMixEffect?.transition ?? Enums.TransitionStyle.CUT
+
+			const nextSelection =
+				newMixEffect?.transitionProperties?.nextSelection ?? Defaults.Video.TransitionProperties.nextSelection
+			const transitionIsBg =
+				nextSelection.length === 0 || // note - can't set empty array in atem so use defaults anyway
+				!!nextSelection?.find((layer) => layer === ConnectionEnums.TransitionSelection.Background)
+			doTransition = doTransition || (programInput !== oldProgramInput && transition !== Enums.TransitionStyle.CUT)
+
+			if (programInput !== oldProgramInput && (!transitionIsBg || !doTransition)) {
+				commands.push(new AtemCommands.ProgramInputCommand(mixEffectId, programInput))
 			}
 
-			if (newMixEffect && 'input' in newMixEffect && 'transition' in newMixEffect) {
-				if (newMixEffect.input !== oldMEInput || newMixEffect.transition === Enums.TransitionStyle.DUMMY) {
-					commands.push(
-						new AtemCommands.PreviewInputCommand(mixEffectId, newMixEffect.input ?? Defaults.Video.defaultInput)
-					)
+			if (doTransition) {
+				if (transitionIsBg) {
+					commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, programInput))
+				}
 
-					if (newMixEffect.transition === Enums.TransitionStyle.CUT) {
+				switch (transition) {
+					// cut to new source
+					case Enums.TransitionStyle.CUT:
 						commands.push(new AtemCommands.CutCommand(mixEffectId))
-					} else if (newMixEffect.transition !== Enums.TransitionStyle.DUMMY) {
-						if (newMixEffect.transition !== oldMeTransition) {
+						break
+
+					// dummy means we don't run the transition but only set the preview
+					case Enums.TransitionStyle.DUMMY:
+						break
+
+					// run transitions to new source
+					default:
+						if (transition !== (oldMixEffect?.transition ?? oldMixEffect?.transitionProperties?.style)) {
 							// set style before auto transition command
 							const command = new AtemCommands.TransitionPropertiesCommand(mixEffectId)
 							command.updateProps({
-								nextStyle: newMixEffect.transition as ConnectionEnums.TransitionStyle,
+								nextStyle: transition as ConnectionEnums.TransitionStyle,
 							})
 							commands.push(command)
 						}
 
 						commands.push(new AtemCommands.TransitionPositionCommand(mixEffectId, 0))
 						commands.push(new AtemCommands.AutoTransitionCommand(mixEffectId))
-					}
 				}
-			} else if (
-				(!oldMixEffect || 'previewInput' in oldMixEffect) &&
-				(!newMixEffect || 'previewInput' in newMixEffect)
+			}
+
+			const previewInput = newMixEffect?.previewInput ?? Defaults.Video.defaultInput
+			const oldPreviewInput = oldMixEffect?.previewInput ?? Defaults.Video.defaultInput
+			if (
+				(oldProgramInput === programInput || !doTransition || transition === Enums.TransitionStyle.CUT) &&
+				previewInput !== oldPreviewInput
 			) {
-				const oldMePreviewInput = oldMixEffect?.previewInput ?? Defaults.Video.defaultInput
-				const newMePreviewInput = newMixEffect?.previewInput ?? Defaults.Video.defaultInput
-				if (oldMePreviewInput !== newMePreviewInput) {
-					commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, newMePreviewInput))
-				}
-				const newMeProgramInput = newMixEffect?.programInput ?? Defaults.Video.defaultInput
-				if (oldMEInput !== newMeProgramInput) {
-					// @todo: check if we need to use the cut command?
-					// use cut command if:
-					//   DSK is tied
-					//   Upstream Keyer is set for next transition
-					commands.push(new AtemCommands.ProgramInputCommand(mixEffectId, newMeProgramInput))
-				}
+				// set preview when there is no auto transition command
+				commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, previewInput))
 			}
 		}
 
