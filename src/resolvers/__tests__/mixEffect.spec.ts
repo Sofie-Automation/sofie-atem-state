@@ -89,7 +89,7 @@ test('Unit: mix effect: program + preview', function () {
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.CUT
 	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<
-		Commands.PreviewInputCommand | Commands.PreviewInputCommand
+		Commands.ProgramInputCommand | Commands.PreviewInputCommand
 	>
 	expect(commands).toHaveLength(2)
 

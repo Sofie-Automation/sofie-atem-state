@@ -2,7 +2,7 @@ import { resolveDownstreamKeyerState } from '../downstreamKeyer'
 import { Commands, VideoState } from 'atem-connection'
 import * as Defaults from '../../defaults'
 import { jsonClone } from '../../util'
-import { DiffDownstreamKeyer } from '../../diff'
+import { DiffDownstreamKeyer, SectionsToDiff } from '../../diff'
 
 function setupDSK(props?: Partial<VideoState.DSK.DownstreamKeyer>): Required<VideoState.DSK.DownstreamKeyer> {
 	return jsonClone({
@@ -19,11 +19,13 @@ function setupDSK(props?: Partial<VideoState.DSK.DownstreamKeyer>): Required<Vid
 const DSK1 = [setupDSK(), setupDSK()]
 const DSK2 = [setupDSK(), setupDSK()]
 
-const fullDiff: Required<DiffDownstreamKeyer> = {
-	sources: true,
-	onAir: true,
-	properties: true,
-	mask: true,
+const fullDiff: SectionsToDiff['video'] & { downstreamKeyers: Required<DiffDownstreamKeyer> } = {
+	downstreamKeyers: {
+		sources: true,
+		onAir: true,
+		properties: true,
+		mask: true,
+	},
 }
 
 test('Unit: Downstream keyer: same state gives no commands', function () {
@@ -163,4 +165,15 @@ test('Unit: Downstream keyer: mask', function () {
 		left: 0,
 		right: 0,
 	}
+})
+
+test('Unit: Downstream keyer: onAir with tie returns doTransition', function () {
+	DSK2[0].properties.tie = true
+	DSK2[0].onAir = true
+	const { commands, doTransition } = resolveDownstreamKeyerState(DSK1, DSK2, {
+		...fullDiff,
+		mixEffects: { programPreview: true },
+	})
+	expect(doTransition).toBe(true)
+	expect(commands.filter((c) => c.constructor.name === 'DownstreamKeyOnAirCommand')).toHaveLength(0)
 })

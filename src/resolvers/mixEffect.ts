@@ -48,11 +48,11 @@ export function resolveMixEffectsState(
 				mixEffectId,
 				oldMixEffect?.upstreamKeyers,
 				newMixEffect?.upstreamKeyers,
-				newMixEffect?.transitionProperties?.nextSelection,
+				thisDiffOptions.programPreview ? newMixEffect?.transitionProperties?.nextSelection : undefined,
 				thisDiffOptions.upstreamKeyers
 			)
 			commands.push(...uskDiff.commands)
-			doTransition = uskDiff.doTransition
+			doTransition = uskDiff.doTransition || dskTransition
 		}
 
 		if (thisDiffOptions.programPreview) {
@@ -63,7 +63,7 @@ export function resolveMixEffectsState(
 			const nextSelection =
 				newMixEffect?.transitionProperties?.nextSelection ?? Defaults.Video.TransitionProperties.nextSelection
 			const transitionIsBg =
-				nextSelection.length === 0 ||
+				nextSelection.length === 0 || // note - can't set empty array in atem so use defaults anyway
 				!!nextSelection?.find((layer) => layer === ConnectionEnums.TransitionSelection.Background)
 			doTransition = doTransition || (programInput !== oldProgramInput && transition !== Enums.TransitionStyle.CUT)
 

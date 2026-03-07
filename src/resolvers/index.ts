@@ -26,7 +26,7 @@ export function diffState(
 		const dskDiff = resolveDownstreamKeyerState(
 			oldState.video?.downstreamKeyers,
 			newState.video?.downstreamKeyers,
-			diffOptions.video.downstreamKeyers
+			diffOptions.video
 		)
 
 		commands.push(...dskDiff.commands)
