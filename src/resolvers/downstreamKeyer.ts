@@ -8,8 +8,9 @@ export function resolveDownstreamKeyerState(
 	oldDsks: Array<PartialDeep<VideoState.DSK.DownstreamKeyer> | undefined> | undefined,
 	newDsks: Array<PartialDeep<VideoState.DSK.DownstreamKeyer> | undefined> | undefined,
 	diffOptions: DiffDownstreamKeyer | DiffDownstreamKeyer[]
-): Array<AtemCommands.ISerializableCommand> {
+): { commands: Array<AtemCommands.ISerializableCommand>; doTransition: boolean } {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
+	let doTransition = false
 
 	for (const index of getAllKeysNumber(oldDsks, newDsks)) {
 		const thisDiffOptions = Array.isArray(diffOptions) ? diffOptions[index] : diffOptions
@@ -41,15 +42,19 @@ export function resolveDownstreamKeyerState(
 				if (!oldDsk.isAuto && newDsk.isAuto) {
 					commands.push(new AtemCommands.DownstreamKeyAutoCommand(index))
 				} else if (oldDsk.onAir !== newDsk.onAir) {
-					const command = new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir)
-					command.runOrderGroup = newDsk.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
-					commands.push(command)
+					if (newDsk.properties?.tie) {
+						doTransition = true
+					} else {
+						const command = new AtemCommands.DownstreamKeyOnAirCommand(index, newDsk.onAir)
+						command.runOrderGroup = newDsk.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
+						commands.push(command)
+					}
 				}
 			}
 		}
 	}
 
-	return commands
+	return { commands, doTransition }
 }
 
 export function resolveDownstreamKeyerPropertiesState(

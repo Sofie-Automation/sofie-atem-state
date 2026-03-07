@@ -21,9 +21,26 @@ export function diffState(
 ): Array<AtemCommands.ISerializableCommand> {
 	const commands: Array<AtemCommands.ISerializableCommand> = []
 
+	let doTransition = false
+	if (diffOptions.video?.downstreamKeyers) {
+		const dskDiff = resolveDownstreamKeyerState(
+			oldState.video?.downstreamKeyers,
+			newState.video?.downstreamKeyers,
+			diffOptions.video.downstreamKeyers
+		)
+
+		commands.push(...dskDiff.commands)
+		doTransition = dskDiff.doTransition
+	}
+
 	if (diffOptions.video?.mixEffects) {
 		commands.push(
-			...resolveMixEffectsState(oldState.video?.mixEffects, newState.video?.mixEffects, diffOptions.video.mixEffects)
+			...resolveMixEffectsState(
+				oldState.video?.mixEffects,
+				newState.video?.mixEffects,
+				diffOptions.video.mixEffects,
+				doTransition
+			)
 		)
 	}
 
@@ -33,15 +50,6 @@ export function diffState(
 		)
 	}
 
-	if (diffOptions.video?.downstreamKeyers) {
-		commands.push(
-			...resolveDownstreamKeyerState(
-				oldState.video?.downstreamKeyers,
-				newState.video?.downstreamKeyers,
-				diffOptions.video.downstreamKeyers
-			)
-		)
-	}
 	if (diffOptions.video?.superSources) {
 		commands.push(
 			...resolveSuperSourceState(

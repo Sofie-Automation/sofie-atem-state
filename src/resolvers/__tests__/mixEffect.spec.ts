@@ -6,6 +6,7 @@ import * as Defaults from '../../defaults'
 import { Commands, Enums as AtemEnums, AtemStateUtil } from 'atem-connection'
 import { jsonClone } from '../../util'
 import { DiffAllObject, DiffMixEffect } from '../../diff'
+import { UpstreamKeyer } from '../../defaults/video'
 
 const fullDiffObject = DiffAllObject().video?.mixEffects as DiffMixEffect
 
@@ -87,7 +88,9 @@ test('Unit: mix effect: program + preview', function () {
 	ME2.previewInput = 2
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.CUT
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
+	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<
+		Commands.PreviewInputCommand | Commands.PreviewInputCommand
+	>
 	expect(commands).toHaveLength(2)
 
 	expect(commands[0].constructor.name).toEqual('ProgramInputCommand')
@@ -108,7 +111,9 @@ test('Unit: mix effect: deprecated "input" field', function () {
 	ME2.previewInput = 2
 	ME2.input = 1 // this is deprecated and should follow the same logic as using programInput
 	ME2.transition = Enums.TransitionStyle.CUT
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
+	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<
+		Commands.PreviewInputCommand | Commands.ProgramInputCommand
+	>
 	expect(commands).toHaveLength(2)
 
 	expect(commands[0].constructor.name).toEqual('ProgramInputCommand')
@@ -434,5 +439,78 @@ test('Unit: mix effect: transition settings: wipe', function () {
 		yPosition: 1,
 		reverseDirection: true,
 		flipFlop: true,
+	})
+})
+
+test('Unit: mix effect: cut with USK preview', function () {
+	const [ME1, ME2] = getState()
+
+	ME1.programInput = 2
+	ME1.previewInput = 1
+	ME1.transitionProperties.nextSelection = [
+		AtemEnums.TransitionSelection.Background,
+		AtemEnums.TransitionSelection.Key1,
+		AtemEnums.TransitionSelection.Key2,
+	]
+
+	ME2.programInput = 3
+	ME2.previewInput = 1
+	ME2.transitionProperties.nextSelection = [
+		AtemEnums.TransitionSelection.Background,
+		AtemEnums.TransitionSelection.Key1,
+		AtemEnums.TransitionSelection.Key2,
+	]
+
+	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.ProgramInputCommand>
+	expect(commands).toHaveLength(1)
+
+	expect(commands[0].constructor.name).toEqual('ProgramInputCommand')
+	expect(commands[0].mixEffect).toEqual(0)
+	expect(commands[0].properties).toEqual({
+		source: 3,
+	})
+})
+
+test('Unit: mix effect: cut previewed USK to air', function () {
+	const [ME1, ME2] = getState()
+
+	ME1.programInput = 2
+	ME1.previewInput = 1
+	ME1.transitionProperties.nextSelection = [
+		AtemEnums.TransitionSelection.Background,
+		AtemEnums.TransitionSelection.Key1,
+		AtemEnums.TransitionSelection.Key2,
+	]
+
+	ME2.programInput = 1
+	ME2.previewInput = 3
+	ME2.transitionProperties.nextSelection = [
+		AtemEnums.TransitionSelection.Background,
+		AtemEnums.TransitionSelection.Key1,
+		AtemEnums.TransitionSelection.Key2,
+	]
+
+	const upstreamKeyers = [
+		{ ...UpstreamKeyer(0), onAir: true },
+		{ ...UpstreamKeyer(1), onAir: true },
+	]
+
+	const commands = ME.resolveMixEffectsState(
+		[ME1],
+		[{ ...ME2, upstreamKeyers }],
+		fullDiffObject
+	) as Array<Commands.ProgramInputCommand>
+	expect(commands).toHaveLength(3)
+
+	expect(commands[0].constructor.name).toEqual('PreviewInputCommand')
+	expect(commands[0].mixEffect).toEqual(0)
+	expect(commands[0].properties).toEqual({
+		source: 1,
+	})
+	expect(commands[1].constructor.name).toEqual('CutCommand')
+	expect(commands[2].constructor.name).toEqual('PreviewInputCommand')
+	expect(commands[2].mixEffect).toEqual(0)
+	expect(commands[2].properties).toEqual({
+		source: 3,
 	})
 })
