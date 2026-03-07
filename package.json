@@ -97,5 +97,9 @@
 			"yarn lint:raw --fix"
 		]
 	},
-	"packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+	"packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
+	"resolutions": {
+		"minimatch": "^3.1.4",
+		"ajv": "^6.14.0"
+	}
 }
