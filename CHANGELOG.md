@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [Convential Commits](https://www.conventionalcommits.org/en/v1.0.0/#specification) for commit guidelines.
 
+## [1.3.0](https://github.com/Sofie-Automation/sofie-atem-state/compare/v1.2.1...v1.3.0) (Sat Mar 07 2026)
+
+
+### Features
+
+* hotcuts using transition prop & keyer transitions (#46) [978ec38](https://github.com/Sofie-Automation/sofie-atem-state/commit/978ec3893a4b326f53552eeff75b0cd0798fdb15)
+
 ## [1.2.1](https://github.com/Sofie-Automation/sofie-atem-state/compare/v1.2.0...v1.2.1) (Mon Dec 08 2025)
 
 
