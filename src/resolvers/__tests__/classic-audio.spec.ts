@@ -1,9 +1,10 @@
-import { collect } from './collect'
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { resolveClassicAudioState } from '../classic-audio'
-import { jsonClone } from '../../util'
 import { AudioState, Commands } from 'atem-connection'
-import { DiffAllObject } from '../../diff'
+
+import { DiffAllObject } from '../../diff.js'
+import { jsonClone } from '../../util.js'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { resolveClassicAudioState } from '../classic-audio.js'
+import { collect } from './collect.js'
 
 function literal<T>(o: T) {
 	return o

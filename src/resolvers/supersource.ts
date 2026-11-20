@@ -1,8 +1,9 @@
 import { AtemCommandCollector, Commands as AtemCommands, VideoState } from 'atem-connection'
-import { diffObject, fillDefaults, getAllKeysNumber } from '../util'
-import * as Defaults from '../defaults'
 import { PartialDeep } from 'type-fest'
-import { DiffSuperSource, DiffSuperSourceBoxes } from '../diff'
+
+import * as Defaults from '../defaults/index.js'
+import { DiffSuperSource, DiffSuperSourceBoxes } from '../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util.js'
 
 type SuperSourceCombinedProperties = VideoState.SuperSource.SuperSourceProperties &
 	VideoState.SuperSource.SuperSourceBorder

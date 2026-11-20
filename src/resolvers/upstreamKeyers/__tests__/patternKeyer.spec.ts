@@ -1,9 +1,10 @@
-import { collect } from '../../__tests__/collect'
+import { AtemStateUtil, Commands, Enums } from 'atem-connection'
+
+import { collect } from '../../__tests__/collect.js'
+import * as Defaults from '../../../defaults/index.js'
+import { jsonClone } from '../../../util.js'
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import * as PatternKeyer from '../patternKeyer'
-import * as Defaults from '../../../defaults'
-import { Commands, Enums, AtemStateUtil } from 'atem-connection'
-import { jsonClone } from '../../../util'
+import * as PatternKeyer from '../patternKeyer.js'
 
 const STATE1 = AtemStateUtil.Create()
 const ME1 = AtemStateUtil.getMixEffect(STATE1, 0)

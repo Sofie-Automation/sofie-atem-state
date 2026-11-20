@@ -1,6 +1,7 @@
-import type { AtemCommandCollector, Macro } from 'atem-connection'
-import { DiffMacroPlayer } from '../diff'
 import { PartialDeep } from 'type-fest'
+import type { AtemCommandCollector, Macro } from 'atem-connection'
+
+import { DiffMacroPlayer } from '../diff.js'
 
 export function resolveMacroPlayerState(
 	commands: AtemCommandCollector,

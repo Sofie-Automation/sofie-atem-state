@@ -1,5 +1,5 @@
+import deepMerge from 'deepmerge'
 import { PartialDeep } from 'type-fest'
-import * as deepMerge from 'deepmerge'
 import { PartialObjectDeep } from 'type-fest/source/partial-deep'
 
 /**
@@ -24,7 +24,12 @@ export function diffObject<T>(oldObj: Partial<T>, newObj: Partial<T>): Partial<T
 	const diff: Partial<T> = {}
 	for (const key in newObj) {
 		const typedKey = key as keyof T
-		if (newObj[typedKey] && oldObj[typedKey] && Array.isArray(newObj[typedKey]) && Array.isArray(oldObj[typedKey])) {
+		if (
+			newObj[typedKey] &&
+			oldObj[typedKey] &&
+			Array.isArray(newObj[typedKey]) &&
+			Array.isArray(oldObj[typedKey])
+		) {
 			// We need to compare array contents, not the arrays themselves
 
 			const newArr: any[] = newObj[typedKey] as any
@@ -33,7 +38,7 @@ export function diffObject<T>(oldObj: Partial<T>, newObj: Partial<T>): Partial<T
 			oldArr.sort()
 
 			if (newArr.length !== oldArr.length || !newArr.every((val, index) => val === oldArr[index])) {
-				diff[typedKey] = newObj[typedKey]
+				diff[typedKey] = newObj[typedKey] as T[keyof T]
 			}
 		} else if (newObj[typedKey] !== oldObj[typedKey]) {
 			diff[typedKey] = newObj[typedKey]
@@ -65,14 +70,15 @@ export function getAllKeysNumber<V>(
 	const oldObj = oldObj0 ?? []
 	const newObj = newObj0 ?? []
 	const rawKeys = Object.keys(oldObj).concat(Object.keys(newObj))
-	return rawKeys.filter((v, i) => keyIsValid(v, oldObj, newObj) && rawKeys.indexOf(v) === i).map((v) => parseInt(v, 10))
+	return rawKeys
+		.filter((v, i) => keyIsValid(v, oldObj, newObj) && rawKeys.indexOf(v) === i)
+		.map((v) => parseInt(v, 10))
 }
 
 export function jsonClone<T>(src: T): T {
 	return JSON.parse(JSON.stringify(src))
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function fillDefaults<T extends object>(
 	defaults: T,
 	val: PartialDeep<T> | PartialObjectDeep<T, { recurseIntoArrays: true }> | undefined

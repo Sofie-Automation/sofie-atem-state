@@ -1,4 +1,5 @@
-export enum TransitionStyle { // note, the first x options should match the enums from atem-connection
+export enum TransitionStyle {
+	// note, the first x options should match the enums from atem-connection
 	MIX,
 	DIP,
 	WIPE,

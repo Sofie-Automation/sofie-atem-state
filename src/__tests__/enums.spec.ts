@@ -1,5 +1,6 @@
-import * as Enums from '../enums'
 import { Enums as ConnEnums } from 'atem-connection'
+
+import * as Enums from '../enums.js'
 
 function getNumberValues(obj: any): number[] {
 	const isNumber = (v: any): v is number => typeof v === 'number'

@@ -1,8 +1,9 @@
-import { collect } from '../../__tests__/collect'
-import * as LK from '../lumaKeyer'
-import * as Defaults from '../../../defaults'
-import { Commands, AtemStateUtil } from 'atem-connection'
-import { jsonClone } from '../../../util'
+import { AtemStateUtil, Commands } from 'atem-connection'
+
+import { collect } from '../../__tests__/collect.js'
+import * as Defaults from '../../../defaults/index.js'
+import { jsonClone } from '../../../util.js'
+import * as LK from '../lumaKeyer.js'
 
 const STATE1 = AtemStateUtil.Create()
 const ME1 = AtemStateUtil.getMixEffect(STATE1, 0)

@@ -1,4 +1,4 @@
-import { DeepComplete } from './util'
+import { DeepComplete } from './util.js'
 
 export function DiffAllObject(): DeepComplete<SectionsToDiff> {
 	return {

@@ -1,6 +1,7 @@
-import { collect } from './collect'
 import { Commands } from 'atem-connection'
-import { resolveAuxiliaries } from '../auxiliaries'
+
+import { resolveAuxiliaries } from '../auxiliaries.js'
+import { collect } from './collect.js'
 
 const STATE1: number[] = [0, 0, 0, 2]
 const STATE2: number[] = [1, 0, 2, 0]

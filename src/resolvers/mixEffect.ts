@@ -1,11 +1,12 @@
 import { AtemCommandCollector, Enums as ConnectionEnums, VideoState } from 'atem-connection'
-import { MixEffect } from '../state'
-import * as Defaults from '../defaults'
-import * as Enums from '../enums'
-import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
-import { DiffMixEffect, DiffMixEffectTransitionSettings } from '../diff'
-import { resolveUpstreamKeyerState } from './upstreamKeyers'
 import { PartialDeep } from 'type-fest'
+
+import * as Defaults from '../defaults/index.js'
+import { DiffMixEffect, DiffMixEffectTransitionSettings } from '../diff.js'
+import * as Enums from '../enums.js'
+import { MixEffect } from '../state.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util.js'
+import { resolveUpstreamKeyerState } from './upstreamKeyers/index.js'
 
 export function resolveMixEffectsState(
 	commands: AtemCommandCollector,
@@ -62,7 +63,8 @@ export function resolveMixEffectsState(
 			const transitionIsBg =
 				nextSelection.length === 0 || // note - can't set empty array in atem so use defaults anyway
 				!!nextSelection?.find((layer) => layer === ConnectionEnums.TransitionSelection.Background)
-			doTransition = doTransition || (programInput !== oldProgramInput && transition !== Enums.TransitionStyle.CUT)
+			doTransition =
+				doTransition || (programInput !== oldProgramInput && transition !== Enums.TransitionStyle.CUT)
 
 			if (programInput !== oldProgramInput && (!transitionIsBg || !doTransition)) {
 				commands.changeProgramInput(programInput, mixEffectId)
@@ -87,7 +89,10 @@ export function resolveMixEffectsState(
 					default:
 						if (transition !== (oldMixEffect?.transition ?? oldMixEffect?.transitionProperties?.style)) {
 							// set style before auto transition command
-							commands.setTransitionStyle({ nextStyle: transition as ConnectionEnums.TransitionStyle }, mixEffectId)
+							commands.setTransitionStyle(
+								{ nextStyle: transition as ConnectionEnums.TransitionStyle },
+								mixEffectId
+							)
 						}
 
 						commands.setTransitionPosition(0, mixEffectId)

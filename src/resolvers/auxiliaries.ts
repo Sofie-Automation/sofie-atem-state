@@ -1,7 +1,8 @@
 import type { AtemCommandCollector } from 'atem-connection'
-import { getAllKeysNumber } from '../util'
-import * as Defaults from '../defaults'
-import { DiffAuxiliaries } from '../diff'
+
+import * as Defaults from '../defaults/index.js'
+import { DiffAuxiliaries } from '../diff.js'
+import { getAllKeysNumber } from '../util.js'
 
 export function resolveAuxiliaries(
 	commands: AtemCommandCollector,

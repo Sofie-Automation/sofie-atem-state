@@ -1,11 +1,12 @@
 import { AtemCommandCollector, Enums, VideoState } from 'atem-connection'
-import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
-import * as Defaults from '../../defaults'
 import { PartialDeep } from 'type-fest'
+
+import * as Defaults from '../../defaults/index.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../../util.js'
 
 type FlyFramesState = [
 	VideoState.USK.UpstreamKeyerFlyKeyframe | undefined,
-	VideoState.USK.UpstreamKeyerFlyKeyframe | undefined
+	VideoState.USK.UpstreamKeyerFlyKeyframe | undefined,
 ]
 
 export function resolveFlyKeyerFramesState(

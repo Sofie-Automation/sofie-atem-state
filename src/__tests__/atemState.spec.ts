@@ -1,6 +1,7 @@
 import { AtemStateUtil } from 'atem-connection'
-import { DiffAllObject } from '../diff'
-import { AtemState } from '../atemState'
+
+import { AtemState } from '../atemState.js'
+import { DiffAllObject } from '../diff.js'
 
 test('Unit test: Atem State: Set State', function () {
 	const state = new AtemState()

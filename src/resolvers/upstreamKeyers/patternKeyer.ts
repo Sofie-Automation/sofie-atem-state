@@ -1,7 +1,8 @@
-import type { AtemCommandCollector, VideoState } from 'atem-connection'
-import { diffObject, fillDefaults } from '../../util'
-import * as Defaults from '../../defaults'
 import { PartialDeep } from 'type-fest'
+import type { AtemCommandCollector, VideoState } from 'atem-connection'
+
+import * as Defaults from '../../defaults/index.js'
+import { diffObject, fillDefaults } from '../../util.js'
 
 export function resolvePatternKeyerState(
 	commands: AtemCommandCollector,

@@ -1,8 +1,9 @@
-import type { AtemCommandCollector, MediaState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import * as Defaults from '../defaults'
-import { diffObject, fillDefaults, getAllKeysNumber } from '../util'
-import { DiffMediaPlayer } from '../diff'
+import type { AtemCommandCollector, MediaState } from 'atem-connection'
+
+import * as Defaults from '../defaults/index.js'
+import { DiffMediaPlayer } from '../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util.js'
 
 export function resolveMediaPlayerState(
 	commands: AtemCommandCollector,

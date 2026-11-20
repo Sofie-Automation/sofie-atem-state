@@ -1,15 +1,15 @@
-import { collect } from './collect'
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Commands, Enums, VideoState } from 'atem-connection'
+
+import * as Defaults from '../../defaults/index.js'
+import { DiffSuperSource } from '../../diff.js'
+import { jsonClone } from '../../util.js'
 import {
 	resolveSuperSourceBorderV8State,
 	resolveSuperSourcePropertiesState,
 	resolveSuperSourcePropertiesV8State,
 	resolveSuperSourceState,
-} from '../supersource'
-import * as Defaults from '../../defaults'
-import { Commands, Enums, VideoState } from 'atem-connection'
-import { jsonClone } from '../../util'
-import { DiffSuperSource } from '../../diff'
+} from '../supersource.js'
+import { collect } from './collect.js'
 
 const SSRC1: Required<VideoState.SuperSource.SuperSource> = jsonClone({
 	index: 0,
@@ -83,6 +83,7 @@ test('Unit: super source boxes: status command', function () {
 
 test('Unit: super source boxes: box removed', function () {
 	const ssBox = SSRC2.boxes[0]
+	// eslint-disable-next-line @typescript-eslint/no-array-delete -- testing a missing box
 	delete SSRC2.boxes[0]
 	const commands = collect(
 		(c) => resolveSuperSourceState(c, [SSRC1], [SSRC2], fullDiff),

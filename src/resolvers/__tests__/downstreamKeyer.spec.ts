@@ -1,9 +1,10 @@
-import { collect, collectWithResult } from './collect'
-import { resolveDownstreamKeyerState } from '../downstreamKeyer'
 import { Commands, VideoState } from 'atem-connection'
-import * as Defaults from '../../defaults'
-import { jsonClone } from '../../util'
-import { DiffDownstreamKeyer, SectionsToDiff } from '../../diff'
+
+import * as Defaults from '../../defaults/index.js'
+import { DiffDownstreamKeyer, SectionsToDiff } from '../../diff.js'
+import { jsonClone } from '../../util.js'
+import { resolveDownstreamKeyerState } from '../downstreamKeyer.js'
+import { collect, collectWithResult } from './collect.js'
 
 function setupDSK(props?: Partial<VideoState.DSK.DownstreamKeyer>): Required<VideoState.DSK.DownstreamKeyer> {
 	return jsonClone({

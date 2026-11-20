@@ -1,9 +1,10 @@
-import { collect } from '../../__tests__/collect'
+import { AtemStateUtil, Commands, Enums } from 'atem-connection'
+
+import { collect } from '../../__tests__/collect.js'
+import * as Defaults from '../../../defaults/index.js'
+import { DiffAllObject, DiffMixEffect } from '../../../diff.js'
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import * as USK from '../index'
-import * as Defaults from '../../../defaults'
-import { Commands, Enums, AtemStateUtil } from 'atem-connection'
-import { DiffAllObject, DiffMixEffect } from '../../../diff'
+import * as USK from '../index.js'
 
 const STATE1 = AtemStateUtil.Create()
 const ME1 = AtemStateUtil.getMixEffect(STATE1, 0)
@@ -26,6 +27,7 @@ test('Unit: upstream keyers: same state gives no commands', function () {
 test('Unit: upstream keyers: undefined gives no error', function () {
 	// same state gives no commands:
 	const usk = ME2.upstreamKeyers[0]
+	// eslint-disable-next-line @typescript-eslint/no-array-delete -- testing a missing keyer
 	delete ME2.upstreamKeyers[0]
 	const commands = collect((c) =>
 		USK.resolveUpstreamKeyerState(c, 0, ME1.upstreamKeyers, ME2.upstreamKeyers, undefined, fullDiffOptions)

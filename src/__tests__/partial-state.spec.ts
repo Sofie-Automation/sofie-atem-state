@@ -1,10 +1,11 @@
-import { ConstellationState } from './states/constellation'
-import { Legacy2MEState } from './states/2me'
-import * as objectPath from 'object-path'
-import clone = require('fast-clone')
-import { AtemState } from '..'
 import { AtemState as ConnectionState } from 'atem-connection'
-import { DiffAllObject } from '../diff'
+import clone from 'fast-clone'
+import * as objectPath from 'object-path'
+
+import { DiffAllObject } from '../diff.js'
+import { AtemState } from '../index.js'
+import { Legacy2MEState } from './states/2me.js'
+import { ConstellationState } from './states/constellation.js'
 
 /**
  * This file contains some 'automated' generated tests.
@@ -44,7 +45,9 @@ function runPartialStateTest(rawState: ConnectionState, iterations: number) {
 
 		test('Matching state', function () {
 			// State to itself should be completely happy
-			expect(() => AtemState.diffStates(rawState.info.apiVersion, rawState, rawState, DiffAllObject())).not.toThrow()
+			expect(() =>
+				AtemState.diffStates(rawState.info.apiVersion, rawState, rawState, DiffAllObject())
+			).not.toThrow()
 		})
 
 		for (let i = 0; i < iterations; i++) {

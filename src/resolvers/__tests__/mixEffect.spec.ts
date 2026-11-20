@@ -1,21 +1,22 @@
-import { collect } from './collect'
+import { Enums as AtemEnums, AtemStateUtil, Commands } from 'atem-connection'
+
+import * as Defaults from '../../defaults/index.js'
+import { UpstreamKeyer } from '../../defaults/video.js'
+import { DiffAllObject, DiffMixEffect } from '../../diff.js'
+import * as Enums from '../../enums.js'
+import { MixEffect } from '../../state.js'
+import { jsonClone } from '../../util.js'
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import * as ME from '../mixEffect'
-import * as Enums from '../../enums'
-import { MixEffect } from '../../state'
-import * as Defaults from '../../defaults'
-import { Commands, Enums as AtemEnums, AtemStateUtil } from 'atem-connection'
-import { jsonClone } from '../../util'
-import { DiffAllObject, DiffMixEffect } from '../../diff'
-import { UpstreamKeyer } from '../../defaults/video'
+import * as ME from '../mixEffect.js'
+import { collect } from './collect.js'
 
 const fullDiffObject = DiffAllObject().video?.mixEffects as DiffMixEffect
 
 function getState() {
 	const state1 = AtemStateUtil.Create()
-	const mixEffect1: MixEffect = AtemStateUtil.getMixEffect(state1, 0) as unknown as MixEffect
+	const mixEffect1: MixEffect = AtemStateUtil.getMixEffect(state1, 0)
 	const state2 = AtemStateUtil.Create()
-	const mixEffect2: MixEffect = AtemStateUtil.getMixEffect(state2, 0) as unknown as MixEffect
+	const mixEffect2: MixEffect = AtemStateUtil.getMixEffect(state2, 0)
 
 	return [mixEffect1, mixEffect2]
 }

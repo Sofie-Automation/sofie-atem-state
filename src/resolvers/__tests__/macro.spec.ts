@@ -1,7 +1,8 @@
-import { collect } from './collect'
 import { Commands, Macro } from 'atem-connection'
-import { DiffMacroPlayer } from '../../diff'
-import { resolveMacroPlayerState } from '../macro'
+
+import { DiffMacroPlayer } from '../../diff.js'
+import { resolveMacroPlayerState } from '../macro.js'
+import { collect } from './collect.js'
 
 const STATE1: Macro.MacroPlayerState = {
 	isRunning: true,

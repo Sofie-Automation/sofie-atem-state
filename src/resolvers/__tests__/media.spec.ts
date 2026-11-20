@@ -1,8 +1,9 @@
-import { collect } from './collect'
-import { resolveMediaPlayerState } from '../media'
 import { Commands, Enums, MediaState } from 'atem-connection'
-import { jsonClone } from '../../util'
-import { DiffMediaPlayer } from '../../diff'
+
+import { DiffMediaPlayer } from '../../diff.js'
+import { jsonClone } from '../../util.js'
+import { resolveMediaPlayerState } from '../media.js'
+import { collect } from './collect.js'
 
 const STATE1: MediaState.MediaPlayerState[] = [
 	{

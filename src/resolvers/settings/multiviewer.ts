@@ -1,8 +1,9 @@
 import { AtemCommandCollector, Enums, SettingsState } from 'atem-connection'
-import { DiffMultiViewer, DiffMultiViewerWindows } from '../../diff'
 import { PartialDeep } from 'type-fest'
-import * as Defaults from '../../defaults'
-import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
+
+import * as Defaults from '../../defaults/index.js'
+import { DiffMultiViewer, DiffMultiViewerWindows } from '../../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../../util.js'
 
 export function resolveMultiviewerState(
 	commands: AtemCommandCollector,

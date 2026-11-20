@@ -1,9 +1,10 @@
-import type { AtemCommandCollector, AudioState } from 'atem-connection'
-import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
-import * as Defaults from '../defaults'
-import { PartialDeep } from 'type-fest'
-import { DiffClassicAudio } from '../diff'
 import { AtemClassicAudioState } from 'atem-connection/dist/state/audio'
+import { PartialDeep } from 'type-fest'
+import type { AtemCommandCollector, AudioState } from 'atem-connection'
+
+import * as Defaults from '../defaults/index.js'
+import { DiffClassicAudio } from '../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util.js'
 
 export function resolveClassicAudioState(
 	commands: AtemCommandCollector,
@@ -45,7 +46,9 @@ export function resolveClassicAudioMixerOutputsState(
 		const oldMonitor = fillDefaults(Defaults.ClassicAudio.Monitor, oldState?.monitor)
 		const newMonitor = fillDefaults(Defaults.ClassicAudio.Monitor, newState?.monitor)
 
-		commands.setClassicAudioMixerMonitorProps(diffObject<AudioState.ClassicAudioMonitorChannel>(oldMonitor, newMonitor))
+		commands.setClassicAudioMixerMonitorProps(
+			diffObject<AudioState.ClassicAudioMonitorChannel>(oldMonitor, newMonitor)
+		)
 	}
 
 	if (diffOptions.headphonesOutput) {
@@ -69,7 +72,10 @@ export function resolveClassicAudioMixerInputsState(
 			const oldChannel = fillDefaults(Defaults.ClassicAudio.Channel, oldState?.[index])
 			const newChannel = fillDefaults(Defaults.ClassicAudio.Channel, newState?.[index])
 
-			commands.setClassicAudioMixerInputProps(index, diffObject<AudioState.ClassicAudioChannel>(oldChannel, newChannel))
+			commands.setClassicAudioMixerInputProps(
+				index,
+				diffObject<AudioState.ClassicAudioChannel>(oldChannel, newChannel)
+			)
 		}
 	}
 }

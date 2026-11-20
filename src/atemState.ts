@@ -1,7 +1,8 @@
-import { AtemCommandCollector, Commands, Enums, AtemStateUtil } from 'atem-connection'
-import { State as StateObject } from './state'
-import * as Resolvers from './resolvers'
-import { SectionsToDiff } from './diff'
+import { AtemCommandCollector, AtemStateUtil, Commands, Enums } from 'atem-connection'
+
+import { SectionsToDiff } from './diff.js'
+import * as Resolvers from './resolvers/index.js'
+import { State as StateObject } from './state.js'
 
 export class AtemState {
 	version: Enums.ProtocolVersion = Enums.ProtocolVersion.V7_2

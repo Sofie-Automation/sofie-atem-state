@@ -1,4 +1,4 @@
-import { Enums, VideoState, MediaState } from 'atem-connection'
+import { Enums, MediaState, VideoState } from 'atem-connection'
 
 export const defaultInput = 0 // black
 export const defaultRate = 25 // 1 second

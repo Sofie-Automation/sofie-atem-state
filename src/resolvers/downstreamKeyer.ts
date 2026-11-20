@@ -1,8 +1,9 @@
 import { AtemCommandCollector, Commands as AtemCommands, VideoState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import * as Defaults from '../defaults'
-import { getAllKeysNumber, diffObject, fillDefaults } from '../util'
-import { SectionsToDiff } from '../diff'
+
+import * as Defaults from '../defaults/index.js'
+import { SectionsToDiff } from '../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util.js'
 
 /**
  * @returns Whether the change needs a mix effect transition to be run
@@ -14,8 +15,8 @@ export function resolveDownstreamKeyerState(
 	diffOptions: SectionsToDiff['video']
 ): boolean {
 	const canUseMixEffectTransition =
-		(Array.isArray(diffOptions?.mixEffects) ? diffOptions?.mixEffects[0] : diffOptions?.mixEffects)?.programPreview ??
-		false
+		(Array.isArray(diffOptions?.mixEffects) ? diffOptions?.mixEffects[0] : diffOptions?.mixEffects)
+			?.programPreview ?? false
 	let doTransition = false
 
 	for (const index of getAllKeysNumber(oldDsks, newDsks)) {

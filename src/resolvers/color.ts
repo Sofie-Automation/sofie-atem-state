@@ -1,8 +1,9 @@
-import type { AtemCommandCollector, ColorGeneratorState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import * as Defaults from '../defaults'
-import { diffObject, fillDefaults, getAllKeysNumber } from '../util'
-import { DiffColorGenerators } from '../diff'
+import type { AtemCommandCollector, ColorGeneratorState } from 'atem-connection'
+
+import * as Defaults from '../defaults/index.js'
+import { DiffColorGenerators } from '../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../util.js'
 
 export function resolveColorState(
 	commands: AtemCommandCollector,

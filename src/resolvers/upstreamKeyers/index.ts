@@ -1,13 +1,14 @@
-import { AtemCommandCollector, Commands as AtemCommands, VideoState, Enums as ConnectionEnums } from 'atem-connection'
-import { resolveDVEKeyerState } from './dveKeyer'
-import { resolveAdvancedChromaKeyerState, resolveChromaKeyerState } from './chromaKeyer'
-import { resolveLumaKeyerState } from './lumaKeyer'
-import { resolvePatternKeyerState } from './patternKeyer'
-import { getAllKeysNumber, diffObject, fillDefaults } from '../../util'
+import { AtemCommandCollector, Commands as AtemCommands, Enums as ConnectionEnums, VideoState } from 'atem-connection'
 import { PartialDeep } from 'type-fest'
-import * as Defaults from '../../defaults'
-import { resolveFlyKeyerFramesState, resolveFlyPropertiesState } from './flyKey'
-import { DiffUpstreamKeyer } from '../../diff'
+
+import * as Defaults from '../../defaults/index.js'
+import { DiffUpstreamKeyer } from '../../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber } from '../../util.js'
+import { resolveAdvancedChromaKeyerState, resolveChromaKeyerState } from './chromaKeyer.js'
+import { resolveDVEKeyerState } from './dveKeyer.js'
+import { resolveFlyKeyerFramesState, resolveFlyPropertiesState } from './flyKey.js'
+import { resolveLumaKeyerState } from './lumaKeyer.js'
+import { resolvePatternKeyerState } from './patternKeyer.js'
 
 /**
  * @returns Whether the change needs a mix effect transition to be run
@@ -52,11 +53,23 @@ export function resolveUpstreamKeyerState(
 			)
 		}
 		if (thisDiffOptions.flyProperties) {
-			resolveFlyPropertiesState(commands, mixEffectId, upstreamKeyerId, oldKeyer.flyProperties, newKeyer.flyProperties)
+			resolveFlyPropertiesState(
+				commands,
+				mixEffectId,
+				upstreamKeyerId,
+				oldKeyer.flyProperties,
+				newKeyer.flyProperties
+			)
 		}
 
 		if (thisDiffOptions.chromaSettings) {
-			resolveChromaKeyerState(commands, mixEffectId, upstreamKeyerId, oldKeyer.chromaSettings, newKeyer.chromaSettings)
+			resolveChromaKeyerState(
+				commands,
+				mixEffectId,
+				upstreamKeyerId,
+				oldKeyer.chromaSettings,
+				newKeyer.chromaSettings
+			)
 		}
 
 		if (thisDiffOptions.advancedChromaSettings) {

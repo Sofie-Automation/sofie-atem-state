@@ -1,4 +1,4 @@
-import { AtemState } from 'atem-connection'
+import { AtemState, Enums } from 'atem-connection'
 
 export const ConstellationState: AtemState = {
 	info: {
@@ -2695,8 +2695,8 @@ export const ConstellationState: AtemState = {
 			},
 		],
 		auxilliaries: [
-			10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010,
-			10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010,
+			10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010,
+			10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010, 10010,
 		],
 		superSources: [
 			{
@@ -3252,7 +3252,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 1,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'1': {
@@ -3263,7 +3263,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'2': {
@@ -3274,7 +3274,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3': {
@@ -3285,7 +3285,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'4': {
@@ -3296,7 +3296,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'5': {
@@ -3307,7 +3307,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'6': {
@@ -3318,7 +3318,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'7': {
@@ -3329,7 +3329,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'8': {
@@ -3340,7 +3340,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'9': {
@@ -3351,7 +3351,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'10': {
@@ -3362,7 +3362,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'11': {
@@ -3373,7 +3373,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'12': {
@@ -3384,7 +3384,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'13': {
@@ -3395,7 +3395,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'14': {
@@ -3406,7 +3406,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'15': {
@@ -3417,7 +3417,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'16': {
@@ -3428,7 +3428,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'17': {
@@ -3439,7 +3439,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'18': {
@@ -3450,7 +3450,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'19': {
@@ -3461,7 +3461,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'20': {
@@ -3472,7 +3472,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'21': {
@@ -3483,7 +3483,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'22': {
@@ -3494,7 +3494,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'23': {
@@ -3505,7 +3505,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'24': {
@@ -3516,7 +3516,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'25': {
@@ -3527,7 +3527,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'26': {
@@ -3538,7 +3538,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'27': {
@@ -3549,7 +3549,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'28': {
@@ -3560,7 +3560,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'29': {
@@ -3571,7 +3571,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'30': {
@@ -3582,7 +3582,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'31': {
@@ -3593,7 +3593,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'32': {
@@ -3604,7 +3604,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'33': {
@@ -3615,7 +3615,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'34': {
@@ -3626,7 +3626,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'35': {
@@ -3637,7 +3637,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'36': {
@@ -3648,7 +3648,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'37': {
@@ -3659,7 +3659,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'38': {
@@ -3670,7 +3670,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'39': {
@@ -3681,7 +3681,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'40': {
@@ -3692,7 +3692,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'1000': {
@@ -3703,7 +3703,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 2,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'2001': {
@@ -3714,7 +3714,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 3,
-			sourceAvailability: 15,
+			sourceAvailability: 15 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'2002': {
@@ -3725,7 +3725,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 3,
-			sourceAvailability: 15,
+			sourceAvailability: 15 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3010': {
@@ -3736,7 +3736,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 4,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3011': {
@@ -3747,7 +3747,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 5,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3020': {
@@ -3758,7 +3758,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 4,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3021': {
@@ -3769,7 +3769,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 5,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3030': {
@@ -3780,7 +3780,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 4,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3031': {
@@ -3791,7 +3791,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 5,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3040': {
@@ -3802,7 +3802,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 4,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'3041': {
@@ -3813,7 +3813,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 5,
-			sourceAvailability: 31,
+			sourceAvailability: 31 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'4010': {
@@ -3824,7 +3824,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4020': {
@@ -3835,7 +3835,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4030': {
@@ -3846,7 +3846,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4040': {
@@ -3857,7 +3857,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4050': {
@@ -3868,7 +3868,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4060': {
@@ -3879,7 +3879,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4070': {
@@ -3890,7 +3890,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4080': {
@@ -3901,7 +3901,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4090': {
@@ -3912,7 +3912,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4100': {
@@ -3923,7 +3923,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4110': {
@@ -3934,7 +3934,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4120': {
@@ -3945,7 +3945,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4130': {
@@ -3956,7 +3956,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4140': {
@@ -3967,7 +3967,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4150': {
@@ -3978,7 +3978,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'4160': {
@@ -3989,7 +3989,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'5010': {
@@ -4000,7 +4000,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'5020': {
@@ -4011,7 +4011,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'5030': {
@@ -4022,7 +4022,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'5040': {
@@ -4033,7 +4033,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 130,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'6000': {
@@ -4044,7 +4044,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 6,
-			sourceAvailability: 27,
+			sourceAvailability: 27 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'6001': {
@@ -4055,7 +4055,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 6,
-			sourceAvailability: 27,
+			sourceAvailability: 27 as Enums.SourceAvailability,
 			meAvailability: 15,
 		},
 		'7001': {
@@ -4066,7 +4066,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'7002': {
@@ -4077,7 +4077,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'7003': {
@@ -4088,7 +4088,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'7004': {
@@ -4099,7 +4099,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'8001': {
@@ -4374,7 +4374,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'10011': {
@@ -4385,7 +4385,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'10020': {
@@ -4396,7 +4396,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
+			sourceAvailability: 11 as Enums.SourceAvailability,
 			meAvailability: 1,
 		},
 		'10021': {
@@ -4407,7 +4407,7 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
+			sourceAvailability: 11 as Enums.SourceAvailability,
 			meAvailability: 1,
 		},
 		'10030': {
@@ -4418,8 +4418,8 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
-			meAvailability: 3,
+			sourceAvailability: 11 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'10031': {
 			inputId: 10031,
@@ -4429,8 +4429,8 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
-			meAvailability: 3,
+			sourceAvailability: 11 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'10040': {
 			inputId: 10040,
@@ -4440,8 +4440,8 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
-			meAvailability: 7,
+			sourceAvailability: 11 as Enums.SourceAvailability,
+			meAvailability: 7 as Enums.MeAvailability,
 		},
 		'10041': {
 			inputId: 10041,
@@ -4451,8 +4451,8 @@ export const ConstellationState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
-			meAvailability: 7,
+			sourceAvailability: 11 as Enums.SourceAvailability,
+			meAvailability: 7 as Enums.MeAvailability,
 		},
 	},
 	macro: {
@@ -5342,7 +5342,7 @@ export const ConstellationState: AtemState = {
 					},
 				],
 				properties: {
-					layout: 15,
+					layout: 15 as Enums.MultiViewerLayout,
 					programPreviewSwapped: false,
 				},
 				vuOpacity: 50,
@@ -5480,7 +5480,7 @@ export const ConstellationState: AtemState = {
 					},
 				],
 				properties: {
-					layout: 15,
+					layout: 15 as Enums.MultiViewerLayout,
 					programPreviewSwapped: false,
 				},
 				vuOpacity: 100,
@@ -5618,7 +5618,7 @@ export const ConstellationState: AtemState = {
 					},
 				],
 				properties: {
-					layout: 15,
+					layout: 15 as Enums.MultiViewerLayout,
 					programPreviewSwapped: false,
 				},
 				vuOpacity: 100,
@@ -5745,7 +5745,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'2': {
@@ -5865,7 +5865,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'3': {
@@ -5985,7 +5985,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'4': {
@@ -6105,7 +6105,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'5': {
@@ -6225,7 +6225,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'6': {
@@ -6345,7 +6345,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'7': {
@@ -6465,7 +6465,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'8': {
@@ -6585,7 +6585,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'9': {
@@ -6705,7 +6705,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'10': {
@@ -6825,7 +6825,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'11': {
@@ -6945,7 +6945,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'12': {
@@ -7065,7 +7065,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'13': {
@@ -7185,7 +7185,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'14': {
@@ -7305,7 +7305,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'15': {
@@ -7425,7 +7425,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'16': {
@@ -7545,7 +7545,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'17': {
@@ -7665,7 +7665,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'18': {
@@ -7785,7 +7785,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'19': {
@@ -7905,7 +7905,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'20': {
@@ -8025,7 +8025,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'21': {
@@ -8145,7 +8145,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'22': {
@@ -8265,7 +8265,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'23': {
@@ -8385,7 +8385,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'24': {
@@ -8505,7 +8505,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'25': {
@@ -8625,7 +8625,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'26': {
@@ -8745,7 +8745,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'27': {
@@ -8865,7 +8865,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'28': {
@@ -8985,7 +8985,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'29': {
@@ -9105,7 +9105,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'30': {
@@ -9225,7 +9225,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'31': {
@@ -9345,7 +9345,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'32': {
@@ -9465,7 +9465,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'33': {
@@ -9585,7 +9585,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'34': {
@@ -9705,7 +9705,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'35': {
@@ -9825,7 +9825,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'36': {
@@ -9945,7 +9945,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'37': {
@@ -10065,7 +10065,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'38': {
@@ -10185,7 +10185,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'39': {
@@ -10305,7 +10305,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'40': {
@@ -10425,7 +10425,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1301': {
@@ -10785,7 +10785,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1502': {
@@ -10905,7 +10905,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1503': {
@@ -11025,7 +11025,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1504': {
@@ -11145,7 +11145,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1505': {
@@ -11265,7 +11265,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1506': {
@@ -11385,7 +11385,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1507': {
@@ -11505,7 +11505,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1508': {
@@ -11625,7 +11625,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1509': {
@@ -11745,7 +11745,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1510': {
@@ -11865,7 +11865,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1511': {
@@ -11985,7 +11985,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1512': {
@@ -12105,7 +12105,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1513': {
@@ -12225,7 +12225,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1514': {
@@ -12345,7 +12345,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1515': {
@@ -12465,7 +12465,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1516': {
@@ -12585,7 +12585,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1517': {
@@ -12705,7 +12705,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1518': {
@@ -12825,7 +12825,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1519': {
@@ -12945,7 +12945,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1520': {
@@ -13065,7 +13065,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1521': {
@@ -13185,7 +13185,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1522': {
@@ -13305,7 +13305,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1523': {
@@ -13425,7 +13425,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1524': {
@@ -13545,7 +13545,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1525': {
@@ -13665,7 +13665,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1526': {
@@ -13785,7 +13785,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1527': {
@@ -13905,7 +13905,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1528': {
@@ -14025,7 +14025,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1529': {
@@ -14145,7 +14145,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1530': {
@@ -14265,7 +14265,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1531': {
@@ -14385,7 +14385,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'1532': {
@@ -14505,7 +14505,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'2001': {
@@ -14625,7 +14625,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'2002': {
@@ -14745,7 +14745,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'2003': {
@@ -14865,7 +14865,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 			'2004': {
@@ -14985,7 +14985,7 @@ export const ConstellationState: AtemState = {
 					supportedConfigurations: [2, 4],
 					activeConfiguration: 2,
 					supportedInputLevels: [],
-					activeInputLevel: 0,
+					activeInputLevel: 0 as Enums.FairlightAnalogInputLevel,
 				},
 			},
 		},

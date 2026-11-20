@@ -1,14 +1,15 @@
-import type { AtemCommandCollector, Fairlight, Commands as AtemCommands } from 'atem-connection'
-import { getAllKeysNumber, diffObject, fillDefaults, getAllKeysString } from '../util'
-import * as Defaults from '../defaults'
+import { OmitReadonly } from 'atem-connection/dist/lib/types'
 import { PartialDeep } from 'type-fest'
+import type { AtemCommandCollector, Commands as AtemCommands, Fairlight } from 'atem-connection'
+
+import * as Defaults from '../defaults/index.js'
 import {
 	DiffFairlightAudio,
 	DiffFairlightAudioInput,
 	DiffFairlightAudioInputSource,
 	DiffFairlightAudioRouting,
-} from '../diff'
-import { OmitReadonly } from 'atem-connection/dist/lib/types'
+} from '../diff.js'
+import { diffObject, fillDefaults, getAllKeysNumber, getAllKeysString } from '../util.js'
 
 export function resolveFairlightAudioState(
 	commands: AtemCommandCollector,
@@ -75,8 +76,14 @@ export function resolveFairlightAudioMixerOutputsState(
 
 		if (diffOptions.masterOutput.dynamics) {
 			{
-				const oldLimiter = fillDefaults(Defaults.FairlightAudio.DynamicsLimiter, oldState?.master?.dynamics?.limiter)
-				const newLimiter = fillDefaults(Defaults.FairlightAudio.DynamicsLimiter, newState?.master?.dynamics?.limiter)
+				const oldLimiter = fillDefaults(
+					Defaults.FairlightAudio.DynamicsLimiter,
+					oldState?.master?.dynamics?.limiter
+				)
+				const newLimiter = fillDefaults(
+					Defaults.FairlightAudio.DynamicsLimiter,
+					newState?.master?.dynamics?.limiter
+				)
 
 				commands.setFairlightAudioMixerMasterLimiterProps(
 					diffObject<Fairlight.FairlightAudioLimiterState>(oldLimiter, newLimiter)
@@ -100,7 +107,10 @@ export function resolveFairlightAudioMixerOutputsState(
 		}
 
 		if (diffOptions.masterOutput.equalizer) {
-			for (const band of getAllKeysNumber(oldState?.master?.equalizer?.bands, newState?.master?.equalizer?.bands)) {
+			for (const band of getAllKeysNumber(
+				oldState?.master?.equalizer?.bands,
+				newState?.master?.equalizer?.bands
+			)) {
 				const oldBand = fillDefaults(
 					Defaults.FairlightAudio.DynamicsEqualizerBand,
 					oldState?.master?.equalizer?.bands?.[band]
@@ -208,8 +218,14 @@ export function resolveFairlightAudioMixerInputSourcesState(
 			}
 
 			{
-				const oldCompressor = fillDefaults(Defaults.FairlightAudio.DynamicsCompressor, oldSource?.dynamics?.compressor)
-				const newCompressor = fillDefaults(Defaults.FairlightAudio.DynamicsCompressor, newSource?.dynamics?.compressor)
+				const oldCompressor = fillDefaults(
+					Defaults.FairlightAudio.DynamicsCompressor,
+					oldSource?.dynamics?.compressor
+				)
+				const newCompressor = fillDefaults(
+					Defaults.FairlightAudio.DynamicsCompressor,
+					newSource?.dynamics?.compressor
+				)
 
 				commands.setFairlightAudioMixerSourceCompressorProps(
 					index,
@@ -219,8 +235,14 @@ export function resolveFairlightAudioMixerInputSourcesState(
 			}
 
 			{
-				const oldExpander = fillDefaults(Defaults.FairlightAudio.DynamicsExpander, oldSource?.dynamics?.expander)
-				const newExpander = fillDefaults(Defaults.FairlightAudio.DynamicsExpander, newSource?.dynamics?.expander)
+				const oldExpander = fillDefaults(
+					Defaults.FairlightAudio.DynamicsExpander,
+					oldSource?.dynamics?.expander
+				)
+				const newExpander = fillDefaults(
+					Defaults.FairlightAudio.DynamicsExpander,
+					newSource?.dynamics?.expander
+				)
 
 				commands.setFairlightAudioMixerSourceExpanderProps(
 					index,
@@ -232,8 +254,14 @@ export function resolveFairlightAudioMixerInputSourcesState(
 
 		if (thisDiffOptions?.equalizer) {
 			for (const band of getAllKeysNumber(oldSource?.equalizer?.bands, newSource?.equalizer?.bands)) {
-				const oldBand = fillDefaults(Defaults.FairlightAudio.DynamicsEqualizerBand, oldSource?.equalizer?.bands?.[band])
-				const newBand = fillDefaults(Defaults.FairlightAudio.DynamicsEqualizerBand, newSource?.equalizer?.bands?.[band])
+				const oldBand = fillDefaults(
+					Defaults.FairlightAudio.DynamicsEqualizerBand,
+					oldSource?.equalizer?.bands?.[band]
+				)
+				const newBand = fillDefaults(
+					Defaults.FairlightAudio.DynamicsEqualizerBand,
+					newSource?.equalizer?.bands?.[band]
+				)
 
 				commands.setFairlightAudioMixerSourceEqualizerBandProps(
 					index,
@@ -289,7 +317,10 @@ export function resolveFairlightAudioRoutingState(
 				)
 
 				// Filter out any properties not being diffed
-				const props = diffObject<OmitReadonly<Fairlight.FairlightAudioRoutingOutput>>(oldProperties, newProperties)
+				const props = diffObject<OmitReadonly<Fairlight.FairlightAudioRoutingOutput>>(
+					oldProperties,
+					newProperties
+				)
 				if (!thisDiffOptions.name) delete props.name
 				if (!thisDiffOptions.sourceId) delete props.sourceId
 

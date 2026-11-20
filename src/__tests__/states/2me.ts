@@ -1,4 +1,4 @@
-import { AtemState } from 'atem-connection'
+import { AtemState, Enums } from 'atem-connection'
 
 export const Legacy2MEState: AtemState = {
 	info: {
@@ -1028,8 +1028,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 1,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'1': {
 			inputId: 1,
@@ -1039,8 +1039,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1, 2],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'2': {
 			inputId: 2,
@@ -1050,8 +1050,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'3': {
 			inputId: 3,
@@ -1061,8 +1061,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'4': {
 			inputId: 4,
@@ -1072,8 +1072,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'5': {
 			inputId: 5,
@@ -1083,8 +1083,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'6': {
 			inputId: 6,
@@ -1094,8 +1094,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'7': {
 			inputId: 7,
@@ -1105,8 +1105,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'8': {
 			inputId: 8,
@@ -1116,8 +1116,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'9': {
 			inputId: 9,
@@ -1127,8 +1127,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'10': {
 			inputId: 10,
@@ -1138,8 +1138,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'11': {
 			inputId: 11,
@@ -1149,8 +1149,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'12': {
 			inputId: 12,
@@ -1160,8 +1160,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'13': {
 			inputId: 13,
@@ -1171,8 +1171,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'14': {
 			inputId: 14,
@@ -1182,8 +1182,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'15': {
 			inputId: 15,
@@ -1193,8 +1193,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'16': {
 			inputId: 16,
@@ -1204,8 +1204,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [1],
 			externalPortType: 1,
 			internalPortType: 0,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'1000': {
 			inputId: 1000,
@@ -1215,8 +1215,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 2,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'2001': {
 			inputId: 2001,
@@ -1226,8 +1226,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 3,
-			sourceAvailability: 15,
-			meAvailability: 3,
+			sourceAvailability: 15 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'2002': {
 			inputId: 2002,
@@ -1237,8 +1237,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 3,
-			sourceAvailability: 15,
-			meAvailability: 3,
+			sourceAvailability: 15 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'3010': {
 			inputId: 3010,
@@ -1248,8 +1248,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 4,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'3011': {
 			inputId: 3011,
@@ -1259,8 +1259,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 5,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'3020': {
 			inputId: 3020,
@@ -1270,8 +1270,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 4,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'3021': {
 			inputId: 3021,
@@ -1281,8 +1281,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 5,
-			sourceAvailability: 31,
-			meAvailability: 3,
+			sourceAvailability: 31 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'6000': {
 			inputId: 6000,
@@ -1292,8 +1292,8 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 6,
-			sourceAvailability: 27,
-			meAvailability: 3,
+			sourceAvailability: 27 as Enums.SourceAvailability,
+			meAvailability: 3 as Enums.MeAvailability,
 		},
 		'7001': {
 			inputId: 7001,
@@ -1303,7 +1303,7 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'7002': {
@@ -1314,7 +1314,7 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'8001': {
@@ -1391,7 +1391,7 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'10011': {
@@ -1402,7 +1402,7 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 3,
+			sourceAvailability: 3 as Enums.SourceAvailability,
 			meAvailability: 0,
 		},
 		'10020': {
@@ -1413,7 +1413,7 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
+			sourceAvailability: 11 as Enums.SourceAvailability,
 			meAvailability: 1,
 		},
 		'10021': {
@@ -1424,7 +1424,7 @@ export const Legacy2MEState: AtemState = {
 			externalPorts: [256],
 			externalPortType: 256,
 			internalPortType: 128,
-			sourceAvailability: 11,
+			sourceAvailability: 11 as Enums.SourceAvailability,
 			meAvailability: 1,
 		},
 	},
