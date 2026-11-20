@@ -1,4 +1,3 @@
-import { AtemClassicAudioState } from 'atem-connection/dist/state/audio'
 import { PartialDeep } from 'type-fest'
 import type { AtemCommandCollector, AudioState } from 'atem-connection'
 
@@ -8,8 +7,8 @@ import { diffObject, fillDefaults, getAllKeysNumber } from '../util.js'
 
 export function resolveClassicAudioState(
 	commands: AtemCommandCollector,
-	oldState: PartialDeep<AtemClassicAudioState> | undefined,
-	newState: PartialDeep<AtemClassicAudioState> | undefined,
+	oldState: PartialDeep<AudioState.AtemClassicAudioState> | undefined,
+	newState: PartialDeep<AudioState.AtemClassicAudioState> | undefined,
 	diffOptions: DiffClassicAudio
 ): void {
 	if (oldState || newState) {
@@ -31,8 +30,8 @@ export function resolveClassicAudioState(
 
 export function resolveClassicAudioMixerOutputsState(
 	commands: AtemCommandCollector,
-	oldState: PartialDeep<AtemClassicAudioState> | undefined,
-	newState: PartialDeep<AtemClassicAudioState> | undefined,
+	oldState: PartialDeep<AudioState.AtemClassicAudioState> | undefined,
+	newState: PartialDeep<AudioState.AtemClassicAudioState> | undefined,
 	diffOptions: DiffClassicAudio
 ): void {
 	if (diffOptions.masterOutput) {
@@ -63,8 +62,8 @@ export function resolveClassicAudioMixerOutputsState(
 
 export function resolveClassicAudioMixerInputsState(
 	commands: AtemCommandCollector,
-	oldState: PartialDeep<AtemClassicAudioState['channels']> | undefined,
-	newState: PartialDeep<AtemClassicAudioState['channels']> | undefined,
+	oldState: PartialDeep<AudioState.AtemClassicAudioState['channels']> | undefined,
+	newState: PartialDeep<AudioState.AtemClassicAudioState['channels']> | undefined,
 	diffOptions: number[] | 'all'
 ): void {
 	for (const index of getAllKeysNumber(oldState, newState)) {

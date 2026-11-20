@@ -1,6 +1,5 @@
 import deepMerge from 'deepmerge'
 import { PartialDeep } from 'type-fest'
-import { PartialObjectDeep } from 'type-fest/source/partial-deep'
 
 /**
  * Make all optional properties be required and `| undefined`
@@ -19,6 +18,18 @@ export type DeepComplete<T> = {
 		? DeepComplete<T[P]>
 		: DeepComplete<T[P]> | undefined
 }
+
+type MutableKeys<T extends object> = {
+	[P in keyof T]-?: IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, P>
+}[keyof T]
+
+type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B
+
+/**
+ * Pick the properties of T which are not readonly
+ * Based on https://github.com/piotrwitek/utility-types/blob/2ae7412a9edf12f34fedbf594facf43cf04f7e32/src/mapped-types.ts#L112
+ */
+export type OmitReadonly<T extends object> = Pick<T, MutableKeys<T>>
 
 export function diffObject<T>(oldObj: Partial<T>, newObj: Partial<T>): Partial<T> {
 	const diff: Partial<T> = {}
@@ -81,7 +92,7 @@ export function jsonClone<T>(src: T): T {
 
 export function fillDefaults<T extends object>(
 	defaults: T,
-	val: PartialDeep<T> | PartialObjectDeep<T, { recurseIntoArrays: true }> | undefined
+	val: NoInfer<PartialDeep<T> | PartialDeep<T, { recurseIntoArrays: true }>> | undefined
 ): T {
 	return deepMerge(defaults, (val ?? {}) as Partial<T>, { arrayMerge: (_dest, src) => src })
 }

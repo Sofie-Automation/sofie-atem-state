@@ -1,4 +1,3 @@
-import { OmitReadonly } from 'atem-connection/dist/lib/types'
 import { PartialDeep } from 'type-fest'
 import type { AtemCommandCollector, Commands as AtemCommands, Fairlight } from 'atem-connection'
 
@@ -9,7 +8,7 @@ import {
 	DiffFairlightAudioInputSource,
 	DiffFairlightAudioRouting,
 } from '../diff.js'
-import { diffObject, fillDefaults, getAllKeysNumber, getAllKeysString } from '../util.js'
+import { diffObject, fillDefaults, getAllKeysNumber, getAllKeysString, OmitReadonly } from '../util.js'
 
 export function resolveFairlightAudioState(
 	commands: AtemCommandCollector,

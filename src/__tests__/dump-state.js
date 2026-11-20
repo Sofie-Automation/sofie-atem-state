@@ -3,9 +3,10 @@
  * A small helper script to generate a json snapshot blob
  */
 
-const { Atem } = require('atem-connection')
-const fs = require('fs')
-const path = require('path')
+import fs from 'node:fs'
+import path from 'node:path'
+
+import { Atem } from 'atem-connection'
 
 const args = process.argv.slice(2)
 if (args.length < 1) {
@@ -18,7 +19,7 @@ const conn = new Atem({ debug: true })
 conn.on('error', console.log)
 
 function writeJson(fileName, data) {
-	const filePath = path.resolve(__dirname, fileName)
+	const filePath = path.resolve(import.meta.dirname, fileName)
 	fs.writeFileSync(filePath, JSON.stringify(data, undefined, '\t'))
 }
 
@@ -31,4 +32,7 @@ conn.once('connected', () => {
 })
 
 console.log(`Connecting to "${args[0]}"`)
-conn.connect(args[0])
+conn.connect(args[0]).catch((e) => {
+	console.error(`Failed to connect: ${e}`)
+	process.exit(1)
+})
