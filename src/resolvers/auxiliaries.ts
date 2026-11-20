@@ -1,26 +1,22 @@
-import { Commands as AtemCommands } from 'atem-connection'
+import type { AtemCommandCollector } from 'atem-connection'
 import { getAllKeysNumber } from '../util'
 import * as Defaults from '../defaults'
 import { DiffAuxiliaries } from '../diff'
 
 export function resolveAuxiliaries(
+	commands: AtemCommandCollector,
 	oldState: Array<number | undefined> | undefined,
 	newState: Array<number | undefined> | undefined,
-	opdiffOptionsions: DiffAuxiliaries
-): Array<AtemCommands.AuxSourceCommand> {
-	const commands: Array<AtemCommands.AuxSourceCommand> = []
-
-	// resolve auxilliaries:
+	diffOptions: DiffAuxiliaries
+): void {
 	for (const index of getAllKeysNumber(oldState, newState)) {
-		if (opdiffOptionsions === 'all' || opdiffOptionsions.includes(index)) {
+		if (diffOptions === 'all' || diffOptions.includes(index)) {
 			const oldSource = oldState?.[index] ?? Defaults.Video.defaultInput
 			const newSource = newState?.[index] ?? Defaults.Video.defaultInput
 
 			if (oldSource !== newSource) {
-				commands.push(new AtemCommands.AuxSourceCommand(index, newSource))
+				commands.setAuxSource(newSource, index)
 			}
 		}
 	}
-
-	return commands
 }

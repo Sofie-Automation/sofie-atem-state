@@ -1,3 +1,4 @@
+import { collect } from './collect'
 import { resolveMediaPlayerState } from '../media'
 import { Commands, Enums, MediaState } from 'atem-connection'
 import { jsonClone } from '../../util'
@@ -51,12 +52,14 @@ const fullDiff: Required<DiffMediaPlayer> = {
 
 test('Unit: media player: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = resolveMediaPlayerState(STATE1, STATE1, fullDiff)
+	const commands = collect((c) => resolveMediaPlayerState(c, STATE1, STATE1, fullDiff))
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: media player: status command', function () {
-	const commands = resolveMediaPlayerState(STATE1, STATE2, fullDiff) as Array<Commands.MediaPlayerStatusCommand>
+	const commands = collect((c) =>
+		resolveMediaPlayerState(c, STATE1, STATE2, fullDiff)
+	) as Array<Commands.MediaPlayerStatusCommand>
 
 	expect(commands[0].constructor.name).toEqual('MediaPlayerStatusCommand')
 	expect(commands[0].mediaPlayerId).toEqual(0)
@@ -80,7 +83,9 @@ test('Unit: media player: select clip and play', function () {
 	state1b[0].playing = true
 	state1b[0].loop = true
 
-	const commands = resolveMediaPlayerState(STATE1, state1b, fullDiff) as Array<Commands.MediaPlayerStatusCommand>
+	const commands = collect((c) =>
+		resolveMediaPlayerState(c, STATE1, state1b, fullDiff)
+	) as Array<Commands.MediaPlayerStatusCommand>
 
 	expect(commands[0].constructor.name).toEqual('MediaPlayerSourceCommand')
 	expect(commands[0].mediaPlayerId).toEqual(0)

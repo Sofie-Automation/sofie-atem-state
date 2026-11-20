@@ -1,4 +1,4 @@
-import { Commands as AtemCommands, VideoState, Enums as ConnectionEnums } from 'atem-connection'
+import { AtemCommandCollector, Commands as AtemCommands, VideoState, Enums as ConnectionEnums } from 'atem-connection'
 import { resolveDVEKeyerState } from './dveKeyer'
 import { resolveAdvancedChromaKeyerState, resolveChromaKeyerState } from './chromaKeyer'
 import { resolveLumaKeyerState } from './lumaKeyer'
@@ -9,14 +9,17 @@ import * as Defaults from '../../defaults'
 import { resolveFlyKeyerFramesState, resolveFlyPropertiesState } from './flyKey'
 import { DiffUpstreamKeyer } from '../../diff'
 
+/**
+ * @returns Whether the change needs a mix effect transition to be run
+ */
 export function resolveUpstreamKeyerState(
+	commands: AtemCommandCollector,
 	mixEffectId: number,
 	oldState: PartialDeep<Array<VideoState.USK.UpstreamKeyer | undefined>> | undefined,
 	newState: PartialDeep<Array<VideoState.USK.UpstreamKeyer | undefined>> | undefined,
 	newStateTransSelection: ConnectionEnums.TransitionSelection[] | undefined,
 	diffOptions: DiffUpstreamKeyer | DiffUpstreamKeyer[]
-): { commands: Array<AtemCommands.ISerializableCommand>; doTransition: boolean } {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
+): boolean {
 	let doTransition = false
 
 	for (const upstreamKeyerId of getAllKeysNumber(oldState, newState)) {
@@ -26,111 +29,100 @@ export function resolveUpstreamKeyerState(
 		const newKeyer = fillDefaults(Defaults.Video.UpstreamKeyer(upstreamKeyerId), newState?.[upstreamKeyerId])
 
 		if (thisDiffOptions.mask) {
-			commands.push(
-				...resolveUpstreamKeyerMaskState(mixEffectId, upstreamKeyerId, oldKeyer.maskSettings, newKeyer.maskSettings)
+			resolveUpstreamKeyerMaskState(
+				commands,
+				mixEffectId,
+				upstreamKeyerId,
+				oldKeyer.maskSettings,
+				newKeyer.maskSettings
 			)
 		}
 
 		if (thisDiffOptions.dveSettings) {
-			commands.push(...resolveDVEKeyerState(mixEffectId, upstreamKeyerId, oldKeyer.dveSettings, newKeyer.dveSettings))
+			resolveDVEKeyerState(commands, mixEffectId, upstreamKeyerId, oldKeyer.dveSettings, newKeyer.dveSettings)
 		}
 		if (thisDiffOptions.flyKeyframes) {
-			commands.push(
-				...resolveFlyKeyerFramesState(
-					mixEffectId,
-					upstreamKeyerId,
-					oldKeyer.flyKeyframes,
-					newKeyer.flyKeyframes,
-					thisDiffOptions.flyKeyframes
-				)
+			resolveFlyKeyerFramesState(
+				commands,
+				mixEffectId,
+				upstreamKeyerId,
+				oldKeyer.flyKeyframes,
+				newKeyer.flyKeyframes,
+				thisDiffOptions.flyKeyframes
 			)
 		}
 		if (thisDiffOptions.flyProperties) {
-			commands.push(
-				...resolveFlyPropertiesState(mixEffectId, upstreamKeyerId, oldKeyer.flyProperties, newKeyer.flyProperties)
-			)
+			resolveFlyPropertiesState(commands, mixEffectId, upstreamKeyerId, oldKeyer.flyProperties, newKeyer.flyProperties)
 		}
 
 		if (thisDiffOptions.chromaSettings) {
-			commands.push(
-				...resolveChromaKeyerState(mixEffectId, upstreamKeyerId, oldKeyer.chromaSettings, newKeyer.chromaSettings)
-			)
+			resolveChromaKeyerState(commands, mixEffectId, upstreamKeyerId, oldKeyer.chromaSettings, newKeyer.chromaSettings)
 		}
 
 		if (thisDiffOptions.advancedChromaSettings) {
-			commands.push(
-				...resolveAdvancedChromaKeyerState(
-					mixEffectId,
-					upstreamKeyerId,
-					oldKeyer.advancedChromaSettings,
-					newKeyer.advancedChromaSettings
-				)
+			resolveAdvancedChromaKeyerState(
+				commands,
+				mixEffectId,
+				upstreamKeyerId,
+				oldKeyer.advancedChromaSettings,
+				newKeyer.advancedChromaSettings
 			)
 		}
 
 		if (thisDiffOptions.lumaSettings) {
-			commands.push(
-				...resolveLumaKeyerState(mixEffectId, upstreamKeyerId, oldKeyer.lumaSettings, newKeyer.lumaSettings)
-			)
+			resolveLumaKeyerState(commands, mixEffectId, upstreamKeyerId, oldKeyer.lumaSettings, newKeyer.lumaSettings)
 		}
 
 		if (thisDiffOptions.patternSettings) {
-			commands.push(
-				...resolvePatternKeyerState(mixEffectId, upstreamKeyerId, oldKeyer.patternSettings, newKeyer.patternSettings)
+			resolvePatternKeyerState(
+				commands,
+				mixEffectId,
+				upstreamKeyerId,
+				oldKeyer.patternSettings,
+				newKeyer.patternSettings
 			)
 		}
 
 		if (thisDiffOptions.sources) {
 			if (oldKeyer.fillSource !== newKeyer.fillSource) {
-				commands.push(
-					new AtemCommands.MixEffectKeyFillSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.fillSource)
-				)
+				commands.setUpstreamKeyerFillSource(newKeyer.fillSource, mixEffectId, upstreamKeyerId)
 			}
 			if (oldKeyer.cutSource !== newKeyer.cutSource) {
-				commands.push(
-					new AtemCommands.MixEffectKeyCutSourceSetCommand(mixEffectId, upstreamKeyerId, newKeyer.cutSource)
-				)
+				commands.setUpstreamKeyerCutSource(newKeyer.cutSource, mixEffectId, upstreamKeyerId)
 			}
 		}
 
 		if (thisDiffOptions.type) {
-			const typeProps = diffObject(oldKeyer, newKeyer)
-			const command = new AtemCommands.MixEffectKeyTypeSetCommand(mixEffectId, upstreamKeyerId)
-			if (command.updateProps(typeProps)) {
-				commands.push(command)
-			}
+			commands.setUpstreamKeyerType(diffObject(oldKeyer, newKeyer), mixEffectId, upstreamKeyerId)
 		}
 
 		const transitions = newStateTransSelection?.includes(Math.pow(2, upstreamKeyerId + 1))
 		if (thisDiffOptions.onAir && oldKeyer.onAir !== newKeyer.onAir && !transitions) {
+			// Built by hand, as the helper can't set the runOrderGroup
 			const command = new AtemCommands.MixEffectKeyOnAirCommand(mixEffectId, upstreamKeyerId, newKeyer.onAir)
 			command.runOrderGroup = newKeyer.onAir ? 10 : -10 // OnAir command should run after other commands when turning on, and before other commands when turning off
-			commands.push(command)
+			commands.sendCommand(command)
 		} else if (thisDiffOptions.onAir && oldKeyer.onAir !== newKeyer.onAir) {
 			doTransition = true
 		}
 	}
 
-	return { commands, doTransition }
+	return doTransition
 }
 
 export function resolveUpstreamKeyerMaskState(
+	commands: AtemCommandCollector,
 	mixEffectId: number,
 	upstreamKeyerId: number,
 	oldState: PartialDeep<VideoState.USK.UpstreamKeyerMaskSettings>,
 	newState: PartialDeep<VideoState.USK.UpstreamKeyerMaskSettings>
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	const oldMask = fillDefaults(Defaults.Video.UpstreamKeyerMask, oldState)
 	const newMask = fillDefaults(Defaults.Video.UpstreamKeyerMask, newState)
 
-	const props = diffObject<VideoState.USK.UpstreamKeyerMaskSettings>(oldMask, newMask)
-
-	const command = new AtemCommands.MixEffectKeyMaskSetCommand(mixEffectId, upstreamKeyerId)
-	if (command.updateProps(props)) {
-		commands.push(command)
-	}
-
-	return commands
+	commands.setUpstreamKeyerMaskSettings(
+		diffObject<VideoState.USK.UpstreamKeyerMaskSettings>(oldMask, newMask),
+		mixEffectId,
+		upstreamKeyerId
+	)
 }

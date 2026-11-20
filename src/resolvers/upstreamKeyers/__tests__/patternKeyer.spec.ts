@@ -1,3 +1,4 @@
+import { collect } from '../../__tests__/collect'
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as PatternKeyer from '../patternKeyer'
 import * as Defaults from '../../../defaults'
@@ -18,7 +19,9 @@ test('Unit: upstream keyers: pattern keyer undefined gives no error', function (
 	// same state gives no commands:
 	const patternKeyer = USK2.patternSettings
 	delete USK2.patternSettings
-	const commands = PatternKeyer.resolvePatternKeyerState(0, 0, USK1.patternSettings, USK2.patternSettings)
+	const commands = collect((c) =>
+		PatternKeyer.resolvePatternKeyerState(c, 0, 0, USK1.patternSettings, USK2.patternSettings)
+	)
 	expect(commands).toHaveLength(0)
 	USK2.patternSettings = patternKeyer
 })
@@ -33,11 +36,8 @@ test('Unit: upstream keyers: pattern keyer', function () {
 		positionY: 700,
 		invert: true,
 	}
-	const commands = PatternKeyer.resolvePatternKeyerState(
-		0,
-		0,
-		USK1.patternSettings,
-		USK2.patternSettings
+	const commands = collect((c) =>
+		PatternKeyer.resolvePatternKeyerState(c, 0, 0, USK1.patternSettings, USK2.patternSettings)
 	) as Commands.MixEffectKeyPatternCommand[]
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyPatternCommand')
@@ -59,11 +59,8 @@ test('Unit: upstream keyers: pattern keyer', function () {
 test('Unit: upstream keyers: pattern keyer: new pattern, no position / symmetry', function () {
 	USK2.patternSettings!.positionX = 300
 	USK2.patternSettings!.style = Enums.Pattern.BottomRightBox
-	const commands = PatternKeyer.resolvePatternKeyerState(
-		0,
-		0,
-		USK1.patternSettings,
-		USK2.patternSettings
+	const commands = collect((c) =>
+		PatternKeyer.resolvePatternKeyerState(c, 0, 0, USK1.patternSettings, USK2.patternSettings)
 	) as Commands.MixEffectKeyPatternCommand[]
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyPatternCommand')

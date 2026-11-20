@@ -1,3 +1,4 @@
+import { collect } from './collect'
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
 	resolveSuperSourceBorderV8State,
@@ -53,16 +54,14 @@ const fullDiff: Required<DiffSuperSource> = {
 
 test('Unit: super source boxes: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = resolveSuperSourceState([SSRC1], [SSRC1], Enums.ProtocolVersion.V7_2, fullDiff)
+	const commands = collect((c) => resolveSuperSourceState(c, [SSRC1], [SSRC1], fullDiff), Enums.ProtocolVersion.V7_2)
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: super source boxes: status command', function () {
-	const commands = resolveSuperSourceState(
-		[SSRC1],
-		[SSRC2],
-		Enums.ProtocolVersion.V7_2,
-		fullDiff
+	const commands = collect(
+		(c) => resolveSuperSourceState(c, [SSRC1], [SSRC2], fullDiff),
+		Enums.ProtocolVersion.V7_2
 	) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands[0].constructor.name).toEqual('SuperSourceBoxParametersCommand')
@@ -85,11 +84,9 @@ test('Unit: super source boxes: status command', function () {
 test('Unit: super source boxes: box removed', function () {
 	const ssBox = SSRC2.boxes[0]
 	delete SSRC2.boxes[0]
-	const commands = resolveSuperSourceState(
-		[SSRC1],
-		[SSRC2],
-		Enums.ProtocolVersion.V7_2,
-		fullDiff
+	const commands = collect(
+		(c) => resolveSuperSourceState(c, [SSRC1], [SSRC2], fullDiff),
+		Enums.ProtocolVersion.V7_2
 	) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands).toHaveLength(0)
@@ -99,11 +96,9 @@ test('Unit: super source boxes: box removed', function () {
 
 test('Unit: super source boxes: new box', function () {
 	SSRC1.boxes[0] = jsonClone(Defaults.Video.SuperSourceBox)
-	const commands = resolveSuperSourceState(
-		[SSRC1],
-		[SSRC2],
-		Enums.ProtocolVersion.V7_2,
-		fullDiff
+	const commands = collect(
+		(c) => resolveSuperSourceState(c, [SSRC1], [SSRC2], fullDiff),
+		Enums.ProtocolVersion.V7_2
 	) as Array<Commands.SuperSourceBoxParametersCommand>
 
 	expect(commands[0].constructor.name).toEqual('SuperSourceBoxParametersCommand')
@@ -127,17 +122,15 @@ test('Unit: super source boxes: new box', function () {
 
 test('Unit: super source properties: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = resolveSuperSourcePropertiesState(SSRC1, SSRC1, fullDiff)
+	const commands = collect((c) => resolveSuperSourcePropertiesState(c, SSRC1, SSRC1, fullDiff))
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: super source properties: some properties changed', function () {
 	SSRC2.properties.artFillSource = 3010
 	SSRC2.properties.artOption = 1 // foreground
-	const commands = resolveSuperSourcePropertiesState(
-		SSRC1,
-		SSRC2,
-		fullDiff
+	const commands = collect((c) =>
+		resolveSuperSourcePropertiesState(c, SSRC1, SSRC2, fullDiff)
 	) as Array<Commands.SuperSourcePropertiesCommand>
 	expect(commands).toHaveLength(1)
 
@@ -155,10 +148,8 @@ test('Unit: super source properties: some properties changed', function () {
 test('Unit: super source properties v8: some properties changed', function () {
 	SSRC2.properties.artFillSource = 3010
 	SSRC2.properties.artOption = 1 // foreground
-	const commands = resolveSuperSourcePropertiesV8State(
-		0,
-		SSRC1.properties,
-		SSRC2.properties
+	const commands = collect((c) =>
+		resolveSuperSourcePropertiesV8State(c, 0, SSRC1.properties, SSRC2.properties)
 	) as Array<Commands.SuperSourcePropertiesV8Command>
 	expect(commands).toHaveLength(1)
 
@@ -173,7 +164,7 @@ test('Unit: super source properties v8: some properties changed', function () {
 	SSRC2.properties.artOption = SSRC1.properties.artOption
 })
 test('Unit: super source properties v8: no properties changed', function () {
-	const commands = resolveSuperSourceState([SSRC1], [SSRC2], Enums.ProtocolVersion.V8_0, fullDiff)
+	const commands = collect((c) => resolveSuperSourceState(c, [SSRC1], [SSRC2], fullDiff), Enums.ProtocolVersion.V8_0)
 	expect(commands).toHaveLength(0)
 })
 
@@ -181,10 +172,8 @@ test('Unit: super source border v8: some properties changed', function () {
 	SSRC2.border.borderOuterWidth = 3010
 	SSRC2.border.borderEnabled = true
 
-	const commands = resolveSuperSourceBorderV8State(
-		0,
-		SSRC1.border,
-		SSRC2.border
+	const commands = collect((c) =>
+		resolveSuperSourceBorderV8State(c, 0, SSRC1.border, SSRC2.border)
 	) as Array<Commands.SuperSourceBorderCommand>
 	expect(commands).toHaveLength(1)
 

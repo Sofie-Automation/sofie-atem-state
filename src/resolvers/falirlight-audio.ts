@@ -1,7 +1,7 @@
-import { Fairlight, Commands as AtemCommands, Enums } from 'atem-connection'
+import type { AtemCommandCollector, Fairlight, Commands as AtemCommands } from 'atem-connection'
 import { getAllKeysNumber, diffObject, fillDefaults, getAllKeysString } from '../util'
 import * as Defaults from '../defaults'
-import { Writable, PartialDeep } from 'type-fest'
+import { PartialDeep } from 'type-fest'
 import {
 	DiffFairlightAudio,
 	DiffFairlightAudioInput,
@@ -11,42 +11,35 @@ import {
 import { OmitReadonly } from 'atem-connection/dist/lib/types'
 
 export function resolveFairlightAudioState(
+	commands: AtemCommandCollector,
 	oldState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
 	newState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
-	version: Enums.ProtocolVersion,
 	diffOptions: DiffFairlightAudio
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	if (oldState || newState) {
-		commands.push(...resolveFairlightAudioMixerOutputsState(oldState, newState, diffOptions))
+		resolveFairlightAudioMixerOutputsState(commands, oldState, newState, diffOptions)
 
 		if (diffOptions.inputs) {
-			commands.push(...resolveFairlightAudioMixerInputsState(oldState, newState, version, diffOptions.inputs))
+			resolveFairlightAudioMixerInputsState(commands, oldState, newState, diffOptions.inputs)
 		}
 
 		if (diffOptions.crossfade) {
 			const oldAfv = oldState?.audioFollowVideoCrossfadeTransitionEnabled ?? false
 			const newAfv = newState?.audioFollowVideoCrossfadeTransitionEnabled ?? false
 			if (oldAfv !== newAfv) {
-				const command = new AtemCommands.FairlightMixerMasterPropertiesCommand()
-				const newProps = {
-					audioFollowVideo: newAfv,
-				}
-				if (command.updateProps(newProps)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerProps({ audioFollowVideo: newAfv })
 			}
 		}
 
 		if (diffOptions.audioRouting && (oldState?.audioRouting || newState?.audioRouting)) {
-			commands.push(
-				...resolveFairlightAudioRoutingState(oldState?.audioRouting, newState?.audioRouting, diffOptions.audioRouting)
+			resolveFairlightAudioRoutingState(
+				commands,
+				oldState?.audioRouting,
+				newState?.audioRouting,
+				diffOptions.audioRouting
 			)
 		}
 	}
-
-	return commands
 }
 
 function buildMasterPropertiesCommandState(
@@ -65,22 +58,19 @@ function buildMasterPropertiesCommandState(
 }
 
 export function resolveFairlightAudioMixerOutputsState(
+	commands: AtemCommandCollector,
 	oldState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
 	newState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
 	diffOptions: DiffFairlightAudio
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	if (diffOptions.masterOutput) {
 		if (diffOptions.masterOutput.properties) {
 			const oldMaster = buildMasterPropertiesCommandState(oldState?.master)
 			const newMaster = buildMasterPropertiesCommandState(newState?.master)
 
-			const props = diffObject<Fairlight.FairlightAudioMasterChannelPropertiesState>(oldMaster, newMaster)
-			const command = new AtemCommands.FairlightMixerMasterCommand()
-			if (command.updateProps(props)) {
-				commands.push(command)
-			}
+			commands.setFairlightAudioMixerMasterProps(
+				diffObject<AtemCommands.FairlightMixerMasterCommandProperties>(oldMaster, newMaster)
+			)
 		}
 
 		if (diffOptions.masterOutput.dynamics) {
@@ -88,11 +78,9 @@ export function resolveFairlightAudioMixerOutputsState(
 				const oldLimiter = fillDefaults(Defaults.FairlightAudio.DynamicsLimiter, oldState?.master?.dynamics?.limiter)
 				const newLimiter = fillDefaults(Defaults.FairlightAudio.DynamicsLimiter, newState?.master?.dynamics?.limiter)
 
-				const props = diffObject<Fairlight.FairlightAudioLimiterState>(oldLimiter, newLimiter)
-				const command = new AtemCommands.FairlightMixerMasterLimiterCommand()
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerMasterLimiterProps(
+					diffObject<Fairlight.FairlightAudioLimiterState>(oldLimiter, newLimiter)
+				)
 			}
 
 			if (diffOptions.masterOutput.properties) {
@@ -105,30 +93,27 @@ export function resolveFairlightAudioMixerOutputsState(
 					newState?.master?.dynamics?.compressor
 				)
 
-				const props = diffObject<Fairlight.FairlightAudioCompressorState>(oldCompressor, newCompressor)
-				const command = new AtemCommands.FairlightMixerMasterCompressorCommand()
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerMasterCompressorProps(
+					diffObject<Fairlight.FairlightAudioCompressorState>(oldCompressor, newCompressor)
+				)
 			}
 		}
 
 		if (diffOptions.masterOutput.equalizer) {
-			for (const index of getAllKeysNumber(oldState?.master?.equalizer?.bands, newState?.master?.equalizer?.bands)) {
+			for (const band of getAllKeysNumber(oldState?.master?.equalizer?.bands, newState?.master?.equalizer?.bands)) {
 				const oldBand = fillDefaults(
 					Defaults.FairlightAudio.DynamicsEqualizerBand,
-					oldState?.master?.equalizer?.bands?.[index]
+					oldState?.master?.equalizer?.bands?.[band]
 				)
 				const newBand = fillDefaults(
 					Defaults.FairlightAudio.DynamicsEqualizerBand,
-					newState?.master?.equalizer?.bands?.[index]
+					newState?.master?.equalizer?.bands?.[band]
 				)
 
-				const props = diffObject<Fairlight.FairlightAudioEqualizerBandState>(oldBand, newBand)
-				const command = new AtemCommands.FairlightMixerMasterEqualizerBandCommand(index)
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerMasterEqualizerBandProps(
+					band,
+					diffObject<Fairlight.FairlightAudioEqualizerBandState>(oldBand, newBand)
+				)
 			}
 		}
 	}
@@ -137,24 +122,18 @@ export function resolveFairlightAudioMixerOutputsState(
 		const oldMonitor = fillDefaults(Defaults.FairlightAudio.Monitor, oldState?.monitor)
 		const newMonitor = fillDefaults(Defaults.FairlightAudio.Monitor, newState?.monitor)
 
-		const props = diffObject<Fairlight.FairlightAudioMonitorChannel>(oldMonitor, newMonitor)
-		const command = new AtemCommands.FairlightMixerMonitorCommand()
-		if (command.updateProps(props)) {
-			commands.push(command)
-		}
+		commands.setFairlightAudioMixerMonitorProps(
+			diffObject<Fairlight.FairlightAudioMonitorChannel>(oldMonitor, newMonitor)
+		)
 	}
-
-	return commands
 }
 
 export function resolveFairlightAudioMixerInputsState(
+	commands: AtemCommandCollector,
 	oldState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
 	newState: PartialDeep<Fairlight.AtemFairlightAudioState> | undefined,
-	version: Enums.ProtocolVersion,
 	diffOptions: Record<number | 'default', DiffFairlightAudioInput | undefined>
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	for (const index of getAllKeysNumber(oldState?.inputs, newState?.inputs)) {
 		const thisDiffOptions = diffOptions[index] ?? diffOptions['default']
 
@@ -165,31 +144,16 @@ export function resolveFairlightAudioMixerInputsState(
 			const oldProperties = fillDefaults(Defaults.FairlightAudio.InputProperties, oldInput?.properties)
 			const newProperties = fillDefaults(Defaults.FairlightAudio.InputProperties, newInput?.properties)
 
-			const props = diffObject<Fairlight.FairlightAudioInputProperties>(oldProperties, newProperties)
-			if (version >= AtemCommands.FairlightMixerInputV8Command.minimumVersion) {
-				const command = new AtemCommands.FairlightMixerInputV8Command(index)
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
-			} else {
-				const command = new AtemCommands.FairlightMixerInputCommand(index)
-
-				// Translate old properties
-				const props2: Writable<AtemCommands.FairlightMixerInputCommand['properties']> = props
-				props2.rcaToXlrEnabled = props.activeInputLevel === Enums.FairlightAnalogInputLevel.ProLine
-
-				if (command.updateProps(props2)) {
-					commands.push(command)
-				}
-			}
+			commands.setFairlightAudioMixerInputProps(
+				index,
+				diffObject<Fairlight.FairlightAudioInputProperties>(oldProperties, newProperties)
+			)
 		}
 
 		if (thisDiffOptions?.sources) {
-			commands.push(...resolveFairlightAudioMixerInputSourcesState(index, oldInput, newInput, thisDiffOptions.sources))
+			resolveFairlightAudioMixerInputSourcesState(commands, index, oldInput, newInput, thisDiffOptions.sources)
 		}
 	}
-
-	return commands
 }
 
 function buildSourcePropertiesCommandState(
@@ -208,13 +172,12 @@ function buildSourcePropertiesCommandState(
 }
 
 export function resolveFairlightAudioMixerInputSourcesState(
+	commands: AtemCommandCollector,
 	index: number,
 	oldInput: PartialDeep<Fairlight.FairlightAudioInput> | undefined,
 	newInput: PartialDeep<Fairlight.FairlightAudioInput> | undefined,
 	diffOptions: Record<number | 'default', DiffFairlightAudioInputSource | undefined>
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	for (const sourceId of getAllKeysString(oldInput?.sources, newInput?.sources)) {
 		const thisDiffOptions = diffOptions[index] ?? diffOptions['default']
 
@@ -225,11 +188,11 @@ export function resolveFairlightAudioMixerInputSourcesState(
 			const oldProperties = buildSourcePropertiesCommandState(oldSource)
 			const newProperties = buildSourcePropertiesCommandState(newSource)
 
-			const props = diffObject<AtemCommands.FairlightMixerSourceCommandProperties>(oldProperties, newProperties)
-			const command = new AtemCommands.FairlightMixerSourceCommand(index, BigInt(sourceId))
-			if (command.updateProps(props)) {
-				commands.push(command)
-			}
+			commands.setFairlightAudioMixerSourceProps(
+				index,
+				sourceId,
+				diffObject<AtemCommands.FairlightMixerSourceCommandProperties>(oldProperties, newProperties)
+			)
 		}
 
 		if (thisDiffOptions?.dynamics) {
@@ -237,66 +200,58 @@ export function resolveFairlightAudioMixerInputSourcesState(
 				const oldLimiter = fillDefaults(Defaults.FairlightAudio.DynamicsLimiter, oldSource?.dynamics?.limiter)
 				const newLimiter = fillDefaults(Defaults.FairlightAudio.DynamicsLimiter, newSource?.dynamics?.limiter)
 
-				const props = diffObject<Fairlight.FairlightAudioLimiterState>(oldLimiter, newLimiter)
-				const command = new AtemCommands.FairlightMixerSourceLimiterCommand(index, BigInt(sourceId))
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerSourceLimiterProps(
+					index,
+					sourceId,
+					diffObject<Fairlight.FairlightAudioLimiterState>(oldLimiter, newLimiter)
+				)
 			}
 
 			{
 				const oldCompressor = fillDefaults(Defaults.FairlightAudio.DynamicsCompressor, oldSource?.dynamics?.compressor)
 				const newCompressor = fillDefaults(Defaults.FairlightAudio.DynamicsCompressor, newSource?.dynamics?.compressor)
 
-				const props = diffObject<Fairlight.FairlightAudioCompressorState>(oldCompressor, newCompressor)
-				const command = new AtemCommands.FairlightMixerSourceCompressorCommand(index, BigInt(sourceId))
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerSourceCompressorProps(
+					index,
+					sourceId,
+					diffObject<Fairlight.FairlightAudioCompressorState>(oldCompressor, newCompressor)
+				)
 			}
 
 			{
 				const oldExpander = fillDefaults(Defaults.FairlightAudio.DynamicsExpander, oldSource?.dynamics?.expander)
 				const newExpander = fillDefaults(Defaults.FairlightAudio.DynamicsExpander, newSource?.dynamics?.expander)
 
-				const props = diffObject<Fairlight.FairlightAudioExpanderState>(oldExpander, newExpander)
-				const command = new AtemCommands.FairlightMixerSourceExpanderCommand(index, BigInt(sourceId))
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerSourceExpanderProps(
+					index,
+					sourceId,
+					diffObject<Fairlight.FairlightAudioExpanderState>(oldExpander, newExpander)
+				)
 			}
 		}
 
 		if (thisDiffOptions?.equalizer) {
-			for (const index of getAllKeysNumber(oldSource?.equalizer?.bands, newSource?.equalizer?.bands)) {
-				const oldBand = fillDefaults(
-					Defaults.FairlightAudio.DynamicsEqualizerBand,
-					oldSource?.equalizer?.bands?.[index]
-				)
-				const newBand = fillDefaults(
-					Defaults.FairlightAudio.DynamicsEqualizerBand,
-					newSource?.equalizer?.bands?.[index]
-				)
+			for (const band of getAllKeysNumber(oldSource?.equalizer?.bands, newSource?.equalizer?.bands)) {
+				const oldBand = fillDefaults(Defaults.FairlightAudio.DynamicsEqualizerBand, oldSource?.equalizer?.bands?.[band])
+				const newBand = fillDefaults(Defaults.FairlightAudio.DynamicsEqualizerBand, newSource?.equalizer?.bands?.[band])
 
-				const props = diffObject<Fairlight.FairlightAudioEqualizerBandState>(oldBand, newBand)
-				const command = new AtemCommands.FairlightMixerMasterEqualizerBandCommand(index)
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioMixerSourceEqualizerBandProps(
+					index,
+					sourceId,
+					band,
+					diffObject<Fairlight.FairlightAudioEqualizerBandState>(oldBand, newBand)
+				)
 			}
 		}
 	}
-
-	return commands
 }
 
 export function resolveFairlightAudioRoutingState(
+	commands: AtemCommandCollector,
 	oldState: PartialDeep<Fairlight.FairlightAudioRouting> | undefined,
 	newState: PartialDeep<Fairlight.FairlightAudioRouting> | undefined,
 	diffOptions: DiffFairlightAudioRouting
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	if (diffOptions.sources) {
 		for (const sourceId of getAllKeysNumber(oldState?.sources, newState?.sources)) {
 			const thisDiffOptions = diffOptions.sources[sourceId] ?? diffOptions.sources['default']
@@ -311,12 +266,10 @@ export function resolveFairlightAudioRoutingState(
 					newState?.sources?.[sourceId]
 				)
 
-				const props = diffObject<OmitReadonly<Fairlight.FairlightAudioRoutingSource>>(oldProperties, newProperties)
-
-				const command = new AtemCommands.AudioRoutingSourceCommand(sourceId)
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioRoutingSourceProperties(
+					sourceId,
+					diffObject<OmitReadonly<Fairlight.FairlightAudioRoutingSource>>(oldProperties, newProperties)
+				)
 			}
 		}
 	}
@@ -340,13 +293,8 @@ export function resolveFairlightAudioRoutingState(
 				if (!thisDiffOptions.name) delete props.name
 				if (!thisDiffOptions.sourceId) delete props.sourceId
 
-				const command = new AtemCommands.AudioRoutingOutputCommand(outputId)
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				commands.setFairlightAudioRoutingOutputProperties(outputId, props)
 			}
 		}
 	}
-
-	return commands
 }
