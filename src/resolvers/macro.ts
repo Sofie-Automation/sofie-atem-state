@@ -1,5 +1,5 @@
-import { PartialDeep } from 'type-fest'
 import type { AtemCommandCollector, Macro } from 'atem-connection'
+import type { PartialDeep } from 'type-fest'
 
 import { DiffMacroPlayer } from '../diff.js'
 

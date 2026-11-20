@@ -1,5 +1,5 @@
-import { PartialDeep } from 'type-fest'
 import type { AtemCommandCollector, Commands as AtemCommands, Fairlight } from 'atem-connection'
+import type { PartialDeep } from 'type-fest'
 
 import * as Defaults from '../defaults/index.js'
 import {

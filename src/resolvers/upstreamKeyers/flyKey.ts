@@ -1,5 +1,5 @@
 import { AtemCommandCollector, Enums, VideoState } from 'atem-connection'
-import { PartialDeep } from 'type-fest'
+import type { PartialDeep } from 'type-fest'
 
 import * as Defaults from '../../defaults/index.js'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../../util.js'

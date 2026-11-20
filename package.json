@@ -40,7 +40,7 @@
 		"lint:fix": "yarn lint:eslint --fix && yarn lint:prettier:fix",
 		"unit": "vitest",
 		"test": "yarn lint && yarn unit",
-		"docs": "yarn docs:html && open-cli docs/index.html",
+		"docs": "yarn docs:html",
 		"docs:test": "yarn docs:html",
 		"docs:html": "typedoc --tsconfig tsconfig.docs.json --entryPoints src/index.ts --excludePrivate --theme default --out docs",
 		"docs:json": "typedoc --tsconfig tsconfig.docs.json --json docs/typedoc.json --entryPoints src/index.ts",
@@ -69,10 +69,9 @@
 		"husky": "^9.1.7",
 		"lint-staged": "^17.6.1",
 		"object-path": "^0.11.8",
-		"open-cli": "^7.2.0",
 		"prettier": "^3.10.1",
-		"rimraf": "^5.0.10",
-		"typedoc": "^0.24.8",
+		"rimraf": "^6.1.4",
+		"typedoc": "^0.28.20",
 		"typescript": "~6.0.3",
 		"vite": "^8.3.8",
 		"vitest": "^5.1.0"
@@ -88,7 +87,7 @@
 	},
 	"dependencies": {
 		"deepmerge": "^4.3.1",
-		"type-fest": "^3.13.1"
+		"type-fest": "^5.10.0"
 	},
 	"prettier": "@sofie-automation/code-standard-preset/prettier.config.mjs",
 	"lint-staged": {

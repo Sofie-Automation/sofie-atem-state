@@ -1,5 +1,5 @@
 import { AtemCommandCollector, Enums as ConnectionEnums, VideoState } from 'atem-connection'
-import { PartialDeep } from 'type-fest'
+import type { PartialDeep } from 'type-fest'
 
 import * as Defaults from '../defaults/index.js'
 import { DiffMixEffect, DiffMixEffectTransitionSettings } from '../diff.js'

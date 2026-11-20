@@ -1,5 +1,5 @@
 import deepMerge from 'deepmerge'
-import { PartialDeep } from 'type-fest'
+import type { PartialDeep } from 'type-fest'
 
 /**
  * Make all optional properties be required and `| undefined`

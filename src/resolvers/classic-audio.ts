@@ -1,5 +1,5 @@
-import { PartialDeep } from 'type-fest'
 import type { AtemCommandCollector, AudioState } from 'atem-connection'
+import type { PartialDeep } from 'type-fest'
 
 import * as Defaults from '../defaults/index.js'
 import { DiffClassicAudio } from '../diff.js'

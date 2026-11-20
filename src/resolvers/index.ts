@@ -1,5 +1,5 @@
-import { PartialDeep } from 'type-fest'
 import type { AtemCommandCollector } from 'atem-connection'
+import type { PartialDeep } from 'type-fest'
 
 import { SectionsToDiff } from '../diff.js'
 import { State as StateObject } from '../state.js'
