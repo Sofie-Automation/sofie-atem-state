@@ -1,4 +1,4 @@
-import { Commands as AtemCommands, Enums as ConnectionEnums, VideoState } from 'atem-connection'
+import { AtemCommandCollector, Enums as ConnectionEnums, VideoState } from 'atem-connection'
 import { MixEffect } from '../state'
 import * as Defaults from '../defaults'
 import * as Enums from '../enums'
@@ -8,13 +8,12 @@ import { resolveUpstreamKeyerState } from './upstreamKeyers'
 import { PartialDeep } from 'type-fest'
 
 export function resolveMixEffectsState(
+	commands: AtemCommandCollector,
 	oldState: PartialDeep<Array<MixEffect | undefined>> | undefined,
 	newState: PartialDeep<Array<MixEffect | undefined>> | undefined,
 	diffOptions: DiffMixEffect | DiffMixEffect[],
 	dskTransition = false
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	for (const mixEffectId of getAllKeysNumber(oldState, newState)) {
 		const thisDiffOptions = Array.isArray(diffOptions) ? diffOptions[mixEffectId] : diffOptions
 
@@ -23,36 +22,34 @@ export function resolveMixEffectsState(
 		let doTransition = dskTransition
 
 		if (thisDiffOptions.transitionProperties) {
-			commands.push(
-				...resolveTransitionPropertiesState(
-					mixEffectId,
-					oldMixEffect?.transitionProperties,
-					newMixEffect?.transitionProperties
-				)
+			resolveTransitionPropertiesState(
+				commands,
+				mixEffectId,
+				oldMixEffect?.transitionProperties,
+				newMixEffect?.transitionProperties
 			)
 		}
 
 		if (thisDiffOptions.transitionSettings) {
-			commands.push(
-				...resolveTransitionSettingsState(
-					mixEffectId,
-					oldMixEffect?.transitionSettings,
-					newMixEffect?.transitionSettings,
-					thisDiffOptions.transitionSettings
-				)
+			resolveTransitionSettingsState(
+				commands,
+				mixEffectId,
+				oldMixEffect?.transitionSettings,
+				newMixEffect?.transitionSettings,
+				thisDiffOptions.transitionSettings
 			)
 		}
 
 		if (thisDiffOptions.upstreamKeyers) {
-			const uskDiff = resolveUpstreamKeyerState(
+			const uskTransition = resolveUpstreamKeyerState(
+				commands,
 				mixEffectId,
 				oldMixEffect?.upstreamKeyers,
 				newMixEffect?.upstreamKeyers,
 				thisDiffOptions.programPreview ? newMixEffect?.transitionProperties?.nextSelection : undefined,
 				thisDiffOptions.upstreamKeyers
 			)
-			commands.push(...uskDiff.commands)
-			doTransition = uskDiff.doTransition || dskTransition
+			doTransition = uskTransition || dskTransition
 		}
 
 		if (thisDiffOptions.programPreview) {
@@ -68,18 +65,18 @@ export function resolveMixEffectsState(
 			doTransition = doTransition || (programInput !== oldProgramInput && transition !== Enums.TransitionStyle.CUT)
 
 			if (programInput !== oldProgramInput && (!transitionIsBg || !doTransition)) {
-				commands.push(new AtemCommands.ProgramInputCommand(mixEffectId, programInput))
+				commands.changeProgramInput(programInput, mixEffectId)
 			}
 
 			if (doTransition) {
 				if (transitionIsBg) {
-					commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, programInput))
+					commands.changePreviewInput(programInput, mixEffectId)
 				}
 
 				switch (transition) {
 					// cut to new source
 					case Enums.TransitionStyle.CUT:
-						commands.push(new AtemCommands.CutCommand(mixEffectId))
+						commands.cut(mixEffectId)
 						break
 
 					// dummy means we don't run the transition but only set the preview
@@ -90,15 +87,11 @@ export function resolveMixEffectsState(
 					default:
 						if (transition !== (oldMixEffect?.transition ?? oldMixEffect?.transitionProperties?.style)) {
 							// set style before auto transition command
-							const command = new AtemCommands.TransitionPropertiesCommand(mixEffectId)
-							command.updateProps({
-								nextStyle: transition as ConnectionEnums.TransitionStyle,
-							})
-							commands.push(command)
+							commands.setTransitionStyle({ nextStyle: transition as ConnectionEnums.TransitionStyle }, mixEffectId)
 						}
 
-						commands.push(new AtemCommands.TransitionPositionCommand(mixEffectId, 0))
-						commands.push(new AtemCommands.AutoTransitionCommand(mixEffectId))
+						commands.setTransitionPosition(0, mixEffectId)
+						commands.autoTransition(mixEffectId)
 				}
 			}
 
@@ -109,7 +102,7 @@ export function resolveMixEffectsState(
 				previewInput !== oldPreviewInput
 			) {
 				// set preview when there is no auto transition command
-				commands.push(new AtemCommands.PreviewInputCommand(mixEffectId, previewInput))
+				commands.changePreviewInput(previewInput, mixEffectId)
 			}
 		}
 
@@ -118,61 +111,46 @@ export function resolveMixEffectsState(
 				newMixEffect?.transitionPosition?.inTransition &&
 				oldMixEffect?.transitionPosition?.handlePosition !== newMixEffect.transitionPosition.handlePosition
 			) {
-				commands.push(
-					new AtemCommands.TransitionPositionCommand(mixEffectId, newMixEffect?.transitionPosition?.handlePosition ?? 0)
-				)
+				commands.setTransitionPosition(newMixEffect?.transitionPosition?.handlePosition ?? 0, mixEffectId)
 			}
 			if (oldMixEffect?.transitionPosition?.inTransition && !newMixEffect?.transitionPosition?.inTransition) {
-				commands.push(new AtemCommands.TransitionPositionCommand(mixEffectId, 10000)) // finish transition
+				commands.setTransitionPosition(10000, mixEffectId) // finish transition
 			}
 
 			if ((oldMixEffect?.transitionPreview ?? false) !== (newMixEffect?.transitionPreview ?? false)) {
-				commands.push(new AtemCommands.PreviewTransitionCommand(mixEffectId, newMixEffect?.transitionPreview ?? false))
+				commands.previewTransition(newMixEffect?.transitionPreview ?? false, mixEffectId)
 			}
 		}
 
 		// @todo: fadeToBlack
 	}
-
-	return commands
 }
 
 export function resolveTransitionPropertiesState(
+	commands: AtemCommandCollector,
 	mixEffectId: number,
 	oldState: PartialDeep<VideoState.TransitionProperties> | undefined,
 	newState: PartialDeep<VideoState.TransitionProperties> | undefined
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	const oldTransitionProperties = fillDefaults(Defaults.Video.TransitionProperties, oldState)
 	const newTransitionProperties = fillDefaults(Defaults.Video.TransitionProperties, newState)
 
-	const props = diffObject(oldTransitionProperties, newTransitionProperties)
-	const command = new AtemCommands.TransitionPropertiesCommand(mixEffectId)
-	if (command.updateProps(props)) {
-		commands.push(command)
-	}
-
-	return commands
+	commands.setTransitionStyle(diffObject(oldTransitionProperties, newTransitionProperties), mixEffectId)
 }
 
 export function resolveTransitionSettingsState(
+	commands: AtemCommandCollector,
 	mixEffectId: number,
 	oldTransitionSettings: PartialDeep<VideoState.TransitionSettings> | undefined,
 	newTransitionSettings: PartialDeep<VideoState.TransitionSettings> | undefined,
 	diffOptions: DiffMixEffectTransitionSettings
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	if (diffOptions.dip && (newTransitionSettings?.dip || oldTransitionSettings?.dip)) {
 		const dipProperties = diffObject(
 			fillDefaults(Defaults.Video.DipTransitionSettings, oldTransitionSettings?.dip),
 			fillDefaults(Defaults.Video.DipTransitionSettings, newTransitionSettings?.dip)
 		)
-		const command = new AtemCommands.TransitionDipCommand(mixEffectId)
-		if (command.updateProps(dipProperties)) {
-			commands.push(command)
-		}
+		commands.setDipTransitionSettings(dipProperties, mixEffectId)
 	}
 
 	if (diffOptions.DVE && (newTransitionSettings?.DVE || oldTransitionSettings?.DVE)) {
@@ -180,17 +158,14 @@ export function resolveTransitionSettingsState(
 			fillDefaults(Defaults.Video.DVETransitionSettings, oldTransitionSettings?.DVE),
 			fillDefaults(Defaults.Video.DVETransitionSettings, newTransitionSettings?.DVE)
 		)
-		const command = new AtemCommands.TransitionDVECommand(mixEffectId)
-		if (command.updateProps(dveProperties)) {
-			commands.push(command)
-		}
+		commands.setDVETransitionSettings(dveProperties, mixEffectId)
 	}
 
 	if (diffOptions.mix && (newTransitionSettings?.mix || oldTransitionSettings?.mix)) {
 		const oldProps = fillDefaults(Defaults.Video.MixTransitionSettings, oldTransitionSettings?.mix)
 		const newProps = fillDefaults(Defaults.Video.MixTransitionSettings, newTransitionSettings?.mix)
 		if (oldProps.rate !== newProps.rate) {
-			commands.push(new AtemCommands.TransitionMixCommand(mixEffectId, newProps.rate))
+			commands.setMixTransitionSettings({ rate: newProps.rate }, mixEffectId)
 		}
 	}
 
@@ -199,10 +174,7 @@ export function resolveTransitionSettingsState(
 			fillDefaults(Defaults.Video.StingerTransitionSettings, oldTransitionSettings?.stinger),
 			fillDefaults(Defaults.Video.StingerTransitionSettings, newTransitionSettings?.stinger)
 		)
-		const command = new AtemCommands.TransitionStingerCommand(mixEffectId)
-		if (command.updateProps(stingerProperties)) {
-			commands.push(command)
-		}
+		commands.setStingerTransitionSettings(stingerProperties, mixEffectId)
 	}
 
 	if (diffOptions.wipe && (newTransitionSettings?.wipe || oldTransitionSettings?.wipe)) {
@@ -210,11 +182,6 @@ export function resolveTransitionSettingsState(
 			fillDefaults(Defaults.Video.WipeTransitionSettings, oldTransitionSettings?.wipe),
 			fillDefaults(Defaults.Video.WipeTransitionSettings, newTransitionSettings?.wipe)
 		)
-		const command = new AtemCommands.TransitionWipeCommand(mixEffectId)
-		if (command.updateProps(wipeProperties)) {
-			commands.push(command)
-		}
+		commands.setWipeTransitionSettings(wipeProperties, mixEffectId)
 	}
-
-	return commands
 }

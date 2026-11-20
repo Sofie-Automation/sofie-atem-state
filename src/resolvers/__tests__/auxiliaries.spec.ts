@@ -1,3 +1,5 @@
+import { collect } from './collect'
+import { Commands } from 'atem-connection'
 import { resolveAuxiliaries } from '../auxiliaries'
 
 const STATE1: number[] = [0, 0, 0, 2]
@@ -5,16 +7,16 @@ const STATE2: number[] = [1, 0, 2, 0]
 
 test('Unit: auxiliaries: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = resolveAuxiliaries(STATE1, STATE1, 'all')
+	const commands = collect((c) => resolveAuxiliaries(c, STATE1, STATE1, 'all')) as Commands.AuxSourceCommand[]
 	expect(commands).toHaveLength(0)
 
 	// same state gives no commands:
-	const commands1 = resolveAuxiliaries(STATE1, STATE1, [])
+	const commands1 = collect((c) => resolveAuxiliaries(c, STATE1, STATE1, [])) as Commands.AuxSourceCommand[]
 	expect(commands1).toHaveLength(0)
 })
 
 test('Unit: auxiliaries: update some inputs', function () {
-	const commands = resolveAuxiliaries(STATE1, STATE2, 'all')
+	const commands = collect((c) => resolveAuxiliaries(c, STATE1, STATE2, 'all')) as Commands.AuxSourceCommand[]
 	expect(commands).toHaveLength(3)
 
 	expect(commands[0].constructor.name).toEqual('AuxSourceCommand')
@@ -37,7 +39,7 @@ test('Unit: auxiliaries: update some inputs', function () {
 })
 
 test('Unit: auxiliaries: limit inputs', function () {
-	const commands = resolveAuxiliaries(STATE1, STATE2, [0, 2, 5])
+	const commands = collect((c) => resolveAuxiliaries(c, STATE1, STATE2, [0, 2, 5])) as Commands.AuxSourceCommand[]
 	expect(commands).toHaveLength(2)
 
 	expect(commands[0].constructor.name).toEqual('AuxSourceCommand')

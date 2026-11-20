@@ -1,4 +1,4 @@
-import { Commands, Enums, AtemStateUtil } from 'atem-connection'
+import { AtemCommandCollector, Commands, Enums, AtemStateUtil } from 'atem-connection'
 import { State as StateObject } from './state'
 import * as Resolvers from './resolvers'
 import { SectionsToDiff } from './diff'
@@ -30,6 +30,8 @@ export class AtemState {
 		newState: StateObject,
 		options: SectionsToDiff
 	): Array<Commands.ISerializableCommand> {
-		return Resolvers.diffState(oldState, newState, options, version)
+		const commands = new AtemCommandCollector(version)
+		Resolvers.diffState(commands, oldState, newState, options)
+		return commands.takeCommands()
 	}
 }
