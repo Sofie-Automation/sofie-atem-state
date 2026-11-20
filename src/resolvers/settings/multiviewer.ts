@@ -1,16 +1,15 @@
-import { SettingsState, Commands as AtemCommands } from 'atem-connection'
+import { AtemCommandCollector, Enums, SettingsState } from 'atem-connection'
 import { DiffMultiViewer, DiffMultiViewerWindows } from '../../diff'
 import { PartialDeep } from 'type-fest'
 import * as Defaults from '../../defaults'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
 
 export function resolveMultiviewerState(
+	commands: AtemCommandCollector,
 	oldState: Array<PartialDeep<SettingsState.MultiViewer> | undefined> | undefined,
 	newState: Array<PartialDeep<SettingsState.MultiViewer> | undefined> | undefined,
 	diffOptions: DiffMultiViewer | DiffMultiViewer[]
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	for (const index of getAllKeysNumber(oldState, newState)) {
 		const newMv = newState?.[index]
 		const oldMv = oldState?.[index]
@@ -18,7 +17,7 @@ export function resolveMultiviewerState(
 		const thisDiffOptions = Array.isArray(diffOptions) ? diffOptions[index] : diffOptions
 		if (thisDiffOptions) {
 			if (thisDiffOptions.windows && thisDiffOptions.windows.length) {
-				commands.push(...resolveMultiviewerWindowsState(index, oldMv?.windows, newMv?.windows, thisDiffOptions.windows))
+				resolveMultiviewerWindowsState(commands, index, oldMv?.windows, newMv?.windows, thisDiffOptions.windows)
 			}
 
 			const newProps = fillDefaults(Defaults.Multiviewer.Properties, newMv?.properties)
@@ -26,31 +25,31 @@ export function resolveMultiviewerState(
 
 			if (thisDiffOptions.properties) {
 				const props = diffObject<SettingsState.MultiViewerPropertiesState>(oldProps, newProps)
-				const command = new AtemCommands.MultiViewerPropertiesCommand(index)
-				if (command.updateProps(props)) {
-					commands.push(command)
-				}
+				// From 8.0 the safe area is set per window instead
+				if (isV8OrNewer(commands)) delete props.safeAreaEnabled
+				commands.setMultiViewerProperties(props, index)
 
 				const oldVuOpacity = oldMv?.vuOpacity ?? Defaults.Multiviewer.VuOpacity
 				const newVuOpacity = newMv?.vuOpacity ?? Defaults.Multiviewer.VuOpacity
 				if (oldVuOpacity !== newVuOpacity) {
-					commands.push(new AtemCommands.MultiViewerVuOpacityCommand(index, newVuOpacity))
+					commands.setMultiViewerVuOpacity(newVuOpacity, index)
 				}
 			}
 		}
 	}
+}
 
-	return commands
+function isV8OrNewer(commands: AtemCommandCollector): boolean {
+	return commands.apiVersion >= Enums.ProtocolVersion.V8_0
 }
 
 export function resolveMultiviewerWindowsState(
+	commands: AtemCommandCollector,
 	index: number,
 	oldState: Array<PartialDeep<SettingsState.MultiViewerWindowState> | undefined> | undefined,
 	newState: Array<PartialDeep<SettingsState.MultiViewerWindowState> | undefined> | undefined,
 	diffOptions: DiffMultiViewerWindows
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	for (const window of getAllKeysNumber(oldState, newState)) {
 		const oldWindow = oldState?.[window]
 		const newWindow = newState?.[window]
@@ -59,22 +58,23 @@ export function resolveMultiviewerWindowsState(
 			const oldSource = oldWindow?.source ?? Defaults.Video.defaultInput
 			const newSource = newWindow?.source ?? Defaults.Video.defaultInput
 			if (oldSource !== newSource) {
-				commands.push(new AtemCommands.MultiViewerSourceCommand(index, window, newSource))
+				commands.setMultiViewerWindowSource(newSource, index, window)
 			}
 
-			const oldSafeArea = oldWindow?.safeTitle ?? false
-			const newSafeArea = newWindow?.safeTitle ?? false
-			if (oldSafeArea !== newSafeArea) {
-				commands.push(new AtemCommands.MultiViewerWindowSafeAreaCommand(index, window, newSafeArea))
+			// Before 8.0 the safe area is a property of the whole multiviewer, so can't be set per window
+			if (isV8OrNewer(commands)) {
+				const oldSafeArea = oldWindow?.safeTitle ?? false
+				const newSafeArea = newWindow?.safeTitle ?? false
+				if (oldSafeArea !== newSafeArea) {
+					commands.setMultiViewerWindowSafeAreaEnabled(newSafeArea, index, window)
+				}
 			}
 
 			const oldAudioMeter = oldWindow?.audioMeter ?? false
 			const newAudioMeter = newWindow?.audioMeter ?? false
 			if (oldAudioMeter !== newAudioMeter) {
-				commands.push(new AtemCommands.MultiViewerWindowVuMeterCommand(index, window, newAudioMeter))
+				commands.setMultiViewerWindowVuEnabled(newAudioMeter, index, window)
 			}
 		}
 	}
-
-	return commands
 }

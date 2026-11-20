@@ -1,3 +1,4 @@
+import { collect } from './collect'
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as ME from '../mixEffect'
 import * as Enums from '../../enums'
@@ -23,7 +24,7 @@ test('Unit: mix effect: same state gives no commands', function () {
 	const [ME1, ME2] = getState()
 
 	// same state gives no commands:
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject)
+	const commands = collect((c) => ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject))
 	expect(commands).toHaveLength(0)
 })
 
@@ -35,7 +36,7 @@ test('Unit: mix effect: same input gives no commands', function () {
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.CUT
 
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject)
+	const commands = collect((c) => ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject))
 	expect(commands).toHaveLength(0)
 })
 
@@ -44,7 +45,9 @@ test('Unit: mix effect: hot cut program', function () {
 
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.CUT
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.ProgramInputCommand>
+	const commands = collect((c) =>
+		ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+	) as Array<Commands.ProgramInputCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('ProgramInputCommand')
@@ -59,7 +62,9 @@ test('Unit: mix effect: preview input', function () {
 
 	ME2.previewInput = 1
 	{
-		const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
+		const commands = collect((c) =>
+			ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+		) as Array<Commands.PreviewInputCommand>
 		expect(commands).toHaveLength(1)
 
 		expect(commands[0].constructor.name).toEqual('PreviewInputCommand')
@@ -71,7 +76,9 @@ test('Unit: mix effect: preview input', function () {
 
 	ME2.transition = Enums.TransitionStyle.MIX
 	{
-		const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
+		const commands = collect((c) =>
+			ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+		) as Array<Commands.PreviewInputCommand>
 		expect(commands).toHaveLength(1)
 
 		expect(commands[0].constructor.name).toEqual('PreviewInputCommand')
@@ -88,7 +95,7 @@ test('Unit: mix effect: program + preview', function () {
 	ME2.previewInput = 2
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.CUT
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<
+	const commands = collect((c) => ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)) as Array<
 		Commands.ProgramInputCommand | Commands.PreviewInputCommand
 	>
 	expect(commands).toHaveLength(2)
@@ -111,7 +118,7 @@ test('Unit: mix effect: deprecated "input" field', function () {
 	ME2.previewInput = 2
 	ME2.input = 1 // this is deprecated and should follow the same logic as using programInput
 	ME2.transition = Enums.TransitionStyle.CUT
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<
+	const commands = collect((c) => ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)) as Array<
 		Commands.PreviewInputCommand | Commands.ProgramInputCommand
 	>
 	expect(commands).toHaveLength(2)
@@ -133,7 +140,9 @@ test('Unit: mix effect: dummy command', function () {
 
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.DUMMY
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewInputCommand>
+	const commands = collect((c) =>
+		ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+	) as Array<Commands.PreviewInputCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('PreviewInputCommand')
@@ -150,7 +159,7 @@ test('Unit: mix effect: auto command', function () {
 
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.MIX
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<
+	const commands = collect((c) => ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)) as Array<
 		Commands.PreviewInputCommand | Commands.TransitionPositionCommand
 	>
 	expect(commands).toHaveLength(3)
@@ -176,7 +185,7 @@ test('Unit: mix effect: auto command, new transition', function () {
 
 	ME2.programInput = 1
 	ME2.transition = Enums.TransitionStyle.WIPE
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<
+	const commands = collect((c) => ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)) as Array<
 		Commands.PreviewInputCommand | Commands.TransitionPositionCommand
 	>
 	expect(commands).toHaveLength(4)
@@ -207,7 +216,9 @@ test('Unit: mix effect: transition preview', function () {
 	const [ME1, ME2] = getState()
 
 	ME2.transitionPreview = true
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.PreviewTransitionCommand>
+	const commands = collect((c) =>
+		ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+	) as Array<Commands.PreviewTransitionCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('PreviewTransitionCommand')
@@ -222,7 +233,9 @@ test('Unit: mix effect: transition position', function () {
 		inTransition: true,
 		handlePosition: 500,
 	}
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.TransitionPositionCommand>
+	const commands = collect((c) =>
+		ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+	) as Array<Commands.TransitionPositionCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('TransitionPositionCommand')
@@ -240,7 +253,9 @@ test('Unit: mix effect: from transition, to no transition', function () {
 		inTransition: true,
 		handlePosition: 500,
 	}
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.TransitionPositionCommand>
+	const commands = collect((c) =>
+		ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+	) as Array<Commands.TransitionPositionCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('TransitionPositionCommand')
@@ -258,10 +273,8 @@ test('Unit: mix effect: transition properties', function () {
 		AtemEnums.TransitionSelection.Key1,
 	]
 	ME2.transitionProperties.nextStyle = 1
-	const commands = ME.resolveTransitionPropertiesState(
-		0,
-		ME1.transitionProperties,
-		ME2.transitionProperties
+	const commands = collect((c) =>
+		ME.resolveTransitionPropertiesState(c, 0, ME1.transitionProperties, ME2.transitionProperties)
 	) as Array<Commands.TransitionPropertiesCommand>
 	expect(commands).toHaveLength(1)
 
@@ -280,11 +293,14 @@ test('Unit: mix effect: transition settings: dip', function () {
 		input: 1,
 		rate: 50,
 	}
-	const commands = ME.resolveTransitionSettingsState(
-		0,
-		ME1.transitionSettings,
-		ME2.transitionSettings,
-		fullDiffObject.transitionSettings!
+	const commands = collect((c) =>
+		ME.resolveTransitionSettingsState(
+			c,
+			0,
+			ME1.transitionSettings,
+			ME2.transitionSettings,
+			fullDiffObject.transitionSettings!
+		)
 	) as Array<Commands.TransitionDipCommand>
 	expect(commands).toHaveLength(1)
 
@@ -314,11 +330,14 @@ test('Unit: mix effect: transition settings: DVE', function () {
 		reverse: true,
 		flipFlop: true,
 	}
-	const commands = ME.resolveTransitionSettingsState(
-		0,
-		ME1.transitionSettings,
-		ME2.transitionSettings,
-		fullDiffObject.transitionSettings!
+	const commands = collect((c) =>
+		ME.resolveTransitionSettingsState(
+			c,
+			0,
+			ME1.transitionSettings,
+			ME2.transitionSettings,
+			fullDiffObject.transitionSettings!
+		)
 	) as Array<Commands.TransitionDVECommand>
 	expect(commands).toHaveLength(1)
 
@@ -347,11 +366,14 @@ test('Unit: mix effect: transition settings: mix', function () {
 
 	ME2.transitionSettings.mix = jsonClone(Defaults.Video.MixTransitionSettings)
 	ME2.transitionSettings.mix.rate = 50
-	const commands = ME.resolveTransitionSettingsState(
-		0,
-		ME1.transitionSettings,
-		ME2.transitionSettings,
-		fullDiffObject.transitionSettings!
+	const commands = collect((c) =>
+		ME.resolveTransitionSettingsState(
+			c,
+			0,
+			ME1.transitionSettings,
+			ME2.transitionSettings,
+			fullDiffObject.transitionSettings!
+		)
 	) as Array<Commands.TransitionMixCommand>
 	expect(commands).toHaveLength(1)
 
@@ -378,11 +400,14 @@ test('Unit: mix effect: transition settings: stinger', function () {
 		triggerPoint: 25,
 		mixRate: 25,
 	}
-	const commands = ME.resolveTransitionSettingsState(
-		0,
-		ME1.transitionSettings,
-		ME2.transitionSettings,
-		fullDiffObject.transitionSettings!
+	const commands = collect((c) =>
+		ME.resolveTransitionSettingsState(
+			c,
+			0,
+			ME1.transitionSettings,
+			ME2.transitionSettings,
+			fullDiffObject.transitionSettings!
+		)
 	) as Array<Commands.TransitionStingerCommand>
 	expect(commands).toHaveLength(1)
 
@@ -418,11 +443,14 @@ test('Unit: mix effect: transition settings: wipe', function () {
 		reverseDirection: true,
 		flipFlop: true,
 	}
-	const commands = ME.resolveTransitionSettingsState(
-		0,
-		ME1.transitionSettings,
-		ME2.transitionSettings,
-		fullDiffObject.transitionSettings!
+	const commands = collect((c) =>
+		ME.resolveTransitionSettingsState(
+			c,
+			0,
+			ME1.transitionSettings,
+			ME2.transitionSettings,
+			fullDiffObject.transitionSettings!
+		)
 	) as Array<Commands.TransitionWipeCommand>
 	expect(commands).toHaveLength(1)
 
@@ -461,7 +489,9 @@ test('Unit: mix effect: cut with USK preview', function () {
 		AtemEnums.TransitionSelection.Key2,
 	]
 
-	const commands = ME.resolveMixEffectsState([ME1], [ME2], fullDiffObject) as Array<Commands.ProgramInputCommand>
+	const commands = collect((c) =>
+		ME.resolveMixEffectsState(c, [ME1], [ME2], fullDiffObject)
+	) as Array<Commands.ProgramInputCommand>
 	expect(commands).toHaveLength(1)
 
 	expect(commands[0].constructor.name).toEqual('ProgramInputCommand')
@@ -495,10 +525,8 @@ test('Unit: mix effect: cut previewed USK to air', function () {
 		{ ...UpstreamKeyer(1), onAir: true },
 	]
 
-	const commands = ME.resolveMixEffectsState(
-		[ME1],
-		[{ ...ME2, upstreamKeyers }],
-		fullDiffObject
+	const commands = collect((c) =>
+		ME.resolveMixEffectsState(c, [ME1], [{ ...ME2, upstreamKeyers }], fullDiffObject)
 	) as Array<Commands.ProgramInputCommand>
 	expect(commands).toHaveLength(3)
 

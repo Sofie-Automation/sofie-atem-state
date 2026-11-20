@@ -1,3 +1,4 @@
+import { collect } from '../../__tests__/collect'
 import * as CK from '../chromaKeyer'
 import * as Defaults from '../../../defaults'
 import { Commands, AtemStateUtil } from 'atem-connection'
@@ -17,7 +18,7 @@ test('Unit: upstream keyers: chroma keyer undefined gives no error', function ()
 	// same state gives no commands:
 	const ck = USK2.chromaSettings
 	delete USK2.chromaSettings
-	const commands = CK.resolveChromaKeyerState(0, 0, USK1.chromaSettings, USK2.chromaSettings)
+	const commands = collect((c) => CK.resolveChromaKeyerState(c, 0, 0, USK1.chromaSettings, USK2.chromaSettings))
 	expect(commands).toHaveLength(0)
 	USK2.chromaSettings = ck
 })
@@ -30,11 +31,8 @@ test('Unit: upstream keyers: chroma keyer', function () {
 		narrow: true,
 		ySuppress: 4,
 	}
-	const commands = CK.resolveChromaKeyerState(
-		0,
-		0,
-		USK1.chromaSettings,
-		USK2.chromaSettings
+	const commands = collect((c) =>
+		CK.resolveChromaKeyerState(c, 0, 0, USK1.chromaSettings, USK2.chromaSettings)
 	) as Array<Commands.MixEffectKeyChromaCommand>
 
 	expect(commands[0].constructor.name).toEqual('MixEffectKeyChromaCommand')

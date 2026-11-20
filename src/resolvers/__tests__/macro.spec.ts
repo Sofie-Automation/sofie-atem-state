@@ -1,3 +1,4 @@
+import { collect } from './collect'
 import { Commands, Macro } from 'atem-connection'
 import { DiffMacroPlayer } from '../../diff'
 import { resolveMacroPlayerState } from '../macro'
@@ -29,12 +30,14 @@ const fullDiff: Required<DiffMacroPlayer> = {
 
 test('Unit: macro: same state gives no commands', function () {
 	// same state gives no commands:
-	const commands = resolveMacroPlayerState(STATE1, STATE1, fullDiff)
+	const commands = collect((c) => resolveMacroPlayerState(c, STATE1, STATE1, fullDiff))
 	expect(commands).toHaveLength(0)
 })
 
 test('Unit: macro: change running macro', function () {
-	const commands = resolveMacroPlayerState(STATE1, STATE2, fullDiff) as Array<Commands.MacroActionCommand>
+	const commands = collect((c) =>
+		resolveMacroPlayerState(c, STATE1, STATE2, fullDiff)
+	) as Array<Commands.MacroActionCommand>
 
 	expect(commands).toHaveLength(1)
 	expect(commands[0].constructor.name).toEqual('MacroActionCommand')
@@ -45,7 +48,9 @@ test('Unit: macro: change running macro', function () {
 })
 
 test('Unit: macro: stop macro', function () {
-	const commands = resolveMacroPlayerState(STATE2, STATE3, fullDiff) as Array<Commands.MacroActionCommand>
+	const commands = collect((c) =>
+		resolveMacroPlayerState(c, STATE2, STATE3, fullDiff)
+	) as Array<Commands.MacroActionCommand>
 
 	// This will change once this is supported properly, but for now it should not start playing
 	expect(commands).toHaveLength(0)

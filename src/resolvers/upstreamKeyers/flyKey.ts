@@ -1,4 +1,4 @@
-import { Commands as AtemCommands, Enums, VideoState } from 'atem-connection'
+import { AtemCommandCollector, Enums, VideoState } from 'atem-connection'
 import { diffObject, fillDefaults, getAllKeysNumber } from '../../util'
 import * as Defaults from '../../defaults'
 import { PartialDeep } from 'type-fest'
@@ -9,39 +9,32 @@ type FlyFramesState = [
 ]
 
 export function resolveFlyKeyerFramesState(
+	commands: AtemCommandCollector,
 	mixEffectId: number,
 	upstreamKeyerId: number,
 	oldState: PartialDeep<FlyFramesState>,
 	newState: PartialDeep<FlyFramesState>,
 	diffOptions: number[] | 'all'
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
+): void {
 	for (const index of getAllKeysNumber(oldState, newState)) {
 		if (diffOptions === 'all' || diffOptions.includes(index)) {
 			const newKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), newState?.[index])
 			const oldKeyframe = fillDefaults(Defaults.Video.flyKeyframe(index), oldState?.[index])
 
-			const props = diffObject(oldKeyframe, newKeyframe)
-			const command = new AtemCommands.MixEffectKeyFlyKeyframeCommand(mixEffectId, upstreamKeyerId, index + 1)
-			if (command.updateProps(props)) {
-				commands.push(command)
-			}
+			const { keyFrameId: _keyFrameId, ...props } = diffObject(oldKeyframe, newKeyframe)
+			commands.setUpstreamKeyerFlyKeyKeyframe(mixEffectId, upstreamKeyerId, index + 1, props)
 		}
 	}
-
-	return commands
 }
 
 export function resolveFlyPropertiesState(
+	commands: AtemCommandCollector,
 	mixEffectId: number,
 	upstreamKeyerId: number,
 	oldState: Partial<VideoState.USK.UpstreamKeyerFlySettings> | undefined,
 	newState: PartialDeep<VideoState.USK.UpstreamKeyerFlySettings> | undefined
-): Array<AtemCommands.ISerializableCommand> {
-	const commands: Array<AtemCommands.ISerializableCommand> = []
-
-	if (!oldState && !newState) return commands
+): void {
+	if (!oldState && !newState) return
 
 	const oldKeyProps = fillDefaults(Defaults.Video.FlyKeyProperties, oldState)
 	const newKeyProps = fillDefaults(Defaults.Video.FlyKeyProperties, newState)
@@ -49,10 +42,11 @@ export function resolveFlyPropertiesState(
 	if (oldKeyProps.isAtKeyFrame !== newKeyProps.isAtKeyFrame) {
 		const keyframe: Enums.FlyKeyKeyFrame = newKeyProps.isAtKeyFrame as number
 
-		commands.push(
-			new AtemCommands.MixEffectKeyRunToCommand(mixEffectId, upstreamKeyerId, keyframe, newKeyProps.runToInfiniteIndex)
-		)
+		if (keyframe === Enums.FlyKeyKeyFrame.RunToInfinite) {
+			commands.runUpstreamKeyerFlyKeyToInfinite(mixEffectId, upstreamKeyerId, newKeyProps.runToInfiniteIndex)
+		} else if (keyframe !== Enums.FlyKeyKeyFrame.None) {
+			// There is nothing to run to for None
+			commands.runUpstreamKeyerFlyKeyTo(mixEffectId, upstreamKeyerId, keyframe)
+		}
 	}
-
-	return commands
 }
