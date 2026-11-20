@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14.x, 16.x, 18.x, 20.x, 22.x, 24.x]
+        node-version: [22.x, 24.x, 26.x]
 
     steps:
       - name: Git checkout
@@ -37,6 +37,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Prepare Environment
         run: |
+          npm install -g corepack
           corepack enable
           yarn install
         env:
@@ -63,12 +64,14 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Use Node.js 18.x
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v6
         with:
-          node-version: 18.x
+          node-version: 22.x
       - name: Enable corepack
-        run: corepack enable
+        run: |
+          npm install -g corepack
+          corepack enable
       - name: Determine publish info
         id: do-publish
         run: |
@@ -89,9 +92,7 @@ jobs:
 
           else
             # Otherwise (push by tag), keep the previous logic: compare published vs package.json
-            PACKAGE_NAME=$(yarn info -s . name)
-            PUBLISHED_VERSION=$(yarn info -s $PACKAGE_NAME version)
-            # PUBLISHED_VERSION=$(yarn npm info --json . | jq -c '.version' -r) # yarn 3/4 alternative
+            PUBLISHED_VERSION=$(yarn npm info --json . | jq -c '.version' -r)
             THIS_VERSION=$(node -p "require('./package.json').version")
             # Simple bash helper to compare version numbers
             verlte() {
@@ -116,8 +117,7 @@ jobs:
           # Bump to prerelease version if needed
           if [ "${{ steps.do-publish.outputs.prerelease }}" != "" ]; then
             OLD_VERSION=$(node -p "require('./package.json').version")
-            yarn version --new-version ${OLD_VERSION}-${{ steps.do-publish.outputs.prerelease }} --no-git-tag-version
-            # yarn version ${OLD_VERSION}-${{ steps.do-publish.outputs.prerelease }} # yarn 3/4 alternative
+            yarn version ${OLD_VERSION}-${{ steps.do-publish.outputs.prerelease }}
           fi
 
           yarn build
@@ -172,6 +172,7 @@ jobs:
 
       - name: Publish to NPM
         run: |
+          npm install -g corepack
           corepack enable
           yarn install
 

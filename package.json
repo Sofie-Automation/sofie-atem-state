@@ -46,12 +46,12 @@
 		"docs:json": "typedoc --tsconfig tsconfig.docs.json --json docs/typedoc.json --entryPoints src/index.ts",
 		"release": "sofie-version",
 		"reset": "git clean -dfx && git reset --hard && yarn",
-		"validate:dependencies": "yarn audit --groups dependencies && yarn license-validate",
-		"validate:dev-dependencies": "yarn audit --groups devDependencies",
-		"license-validate": "yarn sofie-licensecheck --allowPackages caniuse-lite@1.0.30001425"
+		"validate:dependencies": "yarn npm audit --environment production && run license-validate",
+		"validate:dev-dependencies": "yarn npm audit --environment development",
+		"license-validate": "sofie-licensecheck --allowPackages caniuse-lite@1.0.30001425"
 	},
 	"engines": {
-		"node": "^14.18 || ^16.14 || >=18.0"
+		"node": "^22.12"
 	},
 	"files": [
 		"/dist",
@@ -97,7 +97,7 @@
 			"yarn lint:raw --fix"
 		]
 	},
-	"packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
+	"packageManager": "yarn@4.18.1",
 	"resolutions": {
 		"ajv": "^6.14.0"
 	}
