@@ -2,6 +2,7 @@
 	"extends": "./tsconfig.build.json",
 	"exclude": ["node_modules/**"],
 	"compilerOptions": {
+		"rootDir": "./",
 		"types": ["jest", "node"]
 	}
 }
