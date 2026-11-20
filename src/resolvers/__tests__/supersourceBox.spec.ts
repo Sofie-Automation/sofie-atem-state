@@ -1,4 +1,5 @@
 import { Commands, Enums, VideoState } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import * as Defaults from '../../defaults/index.js'
 import { DiffSuperSource } from '../../diff.js'

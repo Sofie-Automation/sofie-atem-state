@@ -1,4 +1,5 @@
 import { Commands } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import { resolveAuxiliaries } from '../auxiliaries.js'
 import { collect } from './collect.js'

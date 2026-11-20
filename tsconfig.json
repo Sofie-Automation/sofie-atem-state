@@ -1,8 +1,4 @@
 {
-	"extends": "./tsconfig.build.json",
-	"exclude": ["node_modules/**"],
-	"compilerOptions": {
-		"rootDir": "./",
-		"types": ["jest", "node"]
-	}
+	"files": [],
+	"references": [{ "path": "./tsconfig.build.json" }, { "path": "./tsconfig.test.json" }]
 }

@@ -1,4 +1,5 @@
 import { Enums as ConnEnums } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import * as Enums from '../enums.js'
 

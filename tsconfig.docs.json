@@ -1,4 +1,7 @@
 {
 	"extends": "./tsconfig.build.json",
-	"exclude": ["examples/**", "src/**/*.spec.ts"]
+	"exclude": ["examples/**", "src/**/*.spec.ts"],
+	"compilerOptions": {
+		"types": ["node"]
+	}
 }

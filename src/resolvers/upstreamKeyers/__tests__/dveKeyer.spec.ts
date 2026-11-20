@@ -1,4 +1,5 @@
 import { AtemStateUtil, Commands, Enums } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import { collect } from '../../__tests__/collect.js'
 import * as Defaults from '../../../defaults/index.js'

@@ -1,4 +1,5 @@
 import { AudioState, Commands } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import { DiffAllObject } from '../../diff.js'
 import { jsonClone } from '../../util.js'

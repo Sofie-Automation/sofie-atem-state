@@ -1,4 +1,5 @@
 import { AtemStateUtil } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import { AtemState } from '../atemState.js'
 import { DiffAllObject } from '../diff.js'

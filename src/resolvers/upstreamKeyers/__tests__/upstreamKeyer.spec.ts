@@ -1,4 +1,5 @@
 import { AtemStateUtil, Commands, Enums } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import { collect } from '../../__tests__/collect.js'
 import * as Defaults from '../../../defaults/index.js'
@@ -115,7 +116,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 	USK2.onAir = USK1.onAir
 })
 
-// eslint-disable-next-line jest/no-commented-out-tests
+// eslint-disable-next-line vitest/no-commented-out-tests
 // test('Unit: upstream keyer: mask', function () {
 // 	USK2.maskEnabled = true
 // 	const commands = USK.resolveUpstreamKeyerState(0, ME1.upstreamKeyers, ME2.upstreamKeyers, fullDiffOptions) as [Commands.MixEffectKeyMaskSetCommand]
@@ -132,7 +133,7 @@ test('Unit: upstream keyers: keyer on air', function () {
 // 	USK2.maskEnabled = false
 // })
 
-// eslint-disable-next-line jest/no-commented-out-tests
+// eslint-disable-next-line vitest/no-commented-out-tests
 // test('Unit: upstream keyer: mask position', function () {
 // 	USK2.maskBottom = 1
 // 	USK2.maskTop = 2

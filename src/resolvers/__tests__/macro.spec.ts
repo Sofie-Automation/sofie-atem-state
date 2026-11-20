@@ -1,4 +1,5 @@
 import { Commands, Macro } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import { DiffMacroPlayer } from '../../diff.js'
 import { resolveMacroPlayerState } from '../macro.js'

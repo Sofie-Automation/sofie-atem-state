@@ -1,6 +1,7 @@
 import { AtemState as ConnectionState } from 'atem-connection'
 import clone from 'fast-clone'
 import * as objectPath from 'object-path'
+import { describe, expect, test } from 'vitest'
 
 import { DiffAllObject } from '../diff.js'
 import { AtemState } from '../index.js'
@@ -40,7 +41,7 @@ function getAllPathKeys(state: any): string[] {
 function runPartialStateTest(rawState: ConnectionState, iterations: number) {
 	describe(`Partial state: ${rawState.info.productIdentifier}`, function () {
 		const allPathKeys = getAllPathKeys(rawState)
-		// eslint-disable-next-line jest/no-standalone-expect
+		// eslint-disable-next-line vitest/no-standalone-expect
 		expect(allPathKeys.length).not.toBe(0)
 
 		test('Matching state', function () {

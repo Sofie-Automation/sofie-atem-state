@@ -1,4 +1,5 @@
 import { Enums as AtemEnums, AtemStateUtil, Commands } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import * as Defaults from '../../defaults/index.js'
 import { UpstreamKeyer } from '../../defaults/video.js'

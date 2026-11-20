@@ -1,4 +1,5 @@
 import { Commands, Enums, MediaState } from 'atem-connection'
+import { expect, test } from 'vitest'
 
 import { DiffMediaPlayer } from '../../diff.js'
 import { jsonClone } from '../../util.js'
